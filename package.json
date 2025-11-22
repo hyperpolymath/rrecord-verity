@@ -1,10 +1,18 @@
 {
-	"description": "A DKIM verifier add-on for Thunderbird",
+	"description": "Comprehensive email security suite for Thunderbird with DKIM, SPF, DMARC, phishing detection, and advanced threat analysis",
 	"keywords": [
 		"thunderbird",
 		"mailextension",
 		"webextension",
-		"dkim"
+		"dkim",
+		"spf",
+		"dmarc",
+		"email-security",
+		"phishing-detection",
+		"spam-filter",
+		"email-authentication",
+		"rsr-compliant",
+		"security"
 	],
 	"homepage": "https://github.com/lieser/dkim_verifier/wiki",
 	"bugs": {
@@ -24,7 +32,9 @@
 		"test": "node node_modules/mocha/bin/mocha --recursive --reporter dot",
 		"test:ci": "node node_modules/mocha/bin/mocha --recursive --reporter mocha-multi --reporter-options spec=-,json=test-results.json",
 		"pack": "node ./scripts/pack.js",
-		"atnChangelog": "node ./scripts/atnChangelog.js"
+		"atnChangelog": "node ./scripts/atnChangelog.js",
+		"verify-rsr": "node ./scripts/verify-rsr.js",
+		"verify": "npm run lint && npm run checkJs && npm run test && npm run verify-rsr"
 	},
 	"type": "module",
 	"dependencies": {

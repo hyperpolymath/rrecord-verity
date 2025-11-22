@@ -1,0 +1,35 @@
+# security.txt - RFC 9116 Compliant
+# DKIM Verifier Security Contact Information
+
+# Canonical URL (update if hosting changes)
+Canonical: https://github.com/lieser/dkim_verifier/blob/main/.well-known/security.txt
+
+# Primary security contact - PLEASE UPDATE WITH ACTUAL EMAIL
+Contact: mailto:security@example.com
+Contact: https://github.com/lieser/dkim_verifier/security/advisories/new
+
+# Preferred language for security reports
+Preferred-Languages: en, de
+
+# Security policy and disclosure process
+Policy: https://github.com/lieser/dkim_verifier/blob/main/SECURITY.md
+
+# Hiring information (optional)
+# Hiring: https://example.com/jobs
+
+# Acknowledgments page
+Acknowledgments: https://github.com/lieser/dkim_verifier/blob/main/SECURITY.md#security-hall-of-fame
+
+# Encryption key for secure communication (PGP)
+# Encryption: https://keys.openpgp.org/vks/v1/by-fingerprint/YOUR_PGP_FINGERPRINT
+# Note: Update this when PGP key is available
+
+# Expiration date (RFC 9116 requires refresh at least once per year)
+# Format: ISO 8601 (YYYY-MM-DDTHH:MM:SS.sssZ)
+Expires: 2026-11-22T00:00:00.000Z
+
+# Digital signature (optional, for authenticity)
+# To sign this file:
+# 1. Generate: gpg --clear-sign security.txt
+# 2. Verify: gpg --verify security.txt
+# Note: Unsigned for now, will add PGP signature when key is available

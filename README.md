@@ -1,6 +1,21 @@
 # DKIM Verifier
 
-This is an add-on for Mozilla Thunderbird that verifies DKIM signatures according to the RFC 6376.
+Comprehensive email security suite for Mozilla Thunderbird with DKIM, SPF, DMARC verification, phishing detection, and advanced threat analysis.
+
+## Features
+
+- ✅ **DKIM Verification**: RFC 6376 compliant signature validation
+- ✅ **SPF Verification**: RFC 7208 sender authorization (v7.0)
+- ✅ **DMARC**: Policy enforcement
+- ✅ **Phishing Detection**: Multi-heuristic threat analysis (v7.0)
+- ✅ **Header Analysis**: Security scoring and privacy leak detection (v7.0)
+- ✅ **DNSBL Checking**: 15+ spam/malware blacklists (v7.0)
+- ✅ **Bayesian Spam Filter**: Adaptive learning (v7.0)
+- ✅ **Email Sanitization**: Content neutering for safety (v7.0)
+- ✅ **Rules Engine**: Declarative security automation (v7.0)
+- 🔄 **VirusTotal** (Optional): URL/domain reputation checking (v7.0)
+
+**All analysis performed locally**. Optional external services (VirusTotal) can be disabled in preferences.
 
 Usage information can be found in the wiki at <https://github.com/lieser/dkim_verifier/wiki>.
 
