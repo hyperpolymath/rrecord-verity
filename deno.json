@@ -1,0 +1,58 @@
+{
+	"tasks": {
+		"lint": "deno lint --config deno.json",
+		"fmt": "deno fmt --config deno.json",
+		"check": "deno check --config deno.json scripts/*.js modules/**/*.mjs.js",
+		"test": "deno run --allow-read --allow-env npm:mocha --recursive test/unittest",
+		"test:watch": "deno run --allow-read --allow-env --watch npm:mocha --recursive test/unittest",
+		"verify-rsr": "deno run --allow-read scripts/verify-rsr.js",
+		"verify": "deno task lint && deno task check && deno task test && deno task verify-rsr",
+		"pack": "deno run --allow-read --allow-write --allow-run scripts/pack.js",
+		"dev": "deno run --allow-net --allow-read npm:http-server . -c-1",
+		"update-thirdparty": "deno run --allow-read --allow-write --allow-net scripts/update-thirdparty.js"
+	},
+	"lint": {
+		"files": {
+			"include": ["modules/", "scripts/", "experiments/", "content/", "test/"],
+			"exclude": ["thirdparty/", "node_modules/", "_locales/"]
+		},
+		"rules": {
+			"tags": ["recommended"],
+			"include": ["no-explicit-any", "no-unused-vars"],
+			"exclude": ["no-window"]
+		}
+	},
+	"fmt": {
+		"useTabs": true,
+		"lineWidth": 120,
+		"indentWidth": 4,
+		"semicolons": true,
+		"singleQuote": false,
+		"proseWrap": "preserve",
+		"files": {
+			"include": ["modules/", "scripts/", "experiments/", "test/"],
+			"exclude": ["thirdparty/", "node_modules/"]
+		}
+	},
+	"imports": {
+		"@std/assert": "jsr:@std/assert@^1",
+		"@std/testing": "jsr:@std/testing@^1",
+		"@std/path": "jsr:@std/path@^1",
+		"@std/fs": "jsr:@std/fs@^1",
+		"@std/crypto": "jsr:@std/crypto@^1"
+	},
+	"compilerOptions": {
+		"allowJs": true,
+		"checkJs": true,
+		"strict": true,
+		"lib": ["esnext", "dom", "dom.iterable"]
+	},
+	"nodeModulesDir": false,
+	"exclude": [
+		"thirdparty/",
+		"node_modules/",
+		"_locales/",
+		"data/",
+		"*.xpi"
+	]
+}
