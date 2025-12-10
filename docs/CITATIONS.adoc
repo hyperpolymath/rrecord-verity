@@ -1,0 +1,36 @@
+= RRecord-Verity - Citation Guide
+:toc:
+
+== BibTeX
+
+[source,bibtex]
+----
+@software{rrecord-verity_2025,
+  author = {Polymath, Hyper},
+  title = {RRecord-Verity},
+  year = {2025},
+  url = {https://github.com/hyperpolymath/RRecord-Verity},
+  license = {AGPL-3.0-or-later}
+}
+----
+
+== Harvard Style
+
+Polymath, H. (2025) _RRecord-Verity_ [Computer software]. Available at: https://github.com/hyperpolymath/RRecord-Verity
+
+== OSCOLA
+
+Hyper Polymath, 'RRecord-Verity' (2025) <https://github.com/hyperpolymath/RRecord-Verity>
+
+== MLA
+
+Polymath, Hyper. "RRecord-Verity." 2025, github.com/hyperpolymath/RRecord-Verity.
+
+== APA 7
+
+Polymath, H. (2025). _RRecord-Verity_ [Computer software]. GitHub. https://github.com/hyperpolymath/RRecord-Verity
+
+== See Also
+
+* link:../CITATION.cff[CITATION.cff]
+* link:../codemeta.json[codemeta.json]
