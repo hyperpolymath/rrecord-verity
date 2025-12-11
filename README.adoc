@@ -1,76 +1,91 @@
-= RRecord-Verity
-Jonathan D.A. Jewell <jonathan.jewell@gmail.com>
-:toc: macro
-:icons: font
-:source-highlighter: rouge
-:experimental:
-:url-github: https://github.com/hyperpolymath/RRecord-Verity
-:url-gitlab: https://gitlab.com/hyperpolymath/RRecord-Verity
-:url-bitbucket: https://bitbucket.org/hyperpolymath/RRecord-Verity
-:url-codeberg: https://codeberg.org/hyperpolymath/RRecord-Verity
+= DKIM Verifier
 
-Thunderbird extension for comprehensive email record verification (DKIM, SPF, DMARC, MTA-STS, TLSA)
+Comprehensive email security suite for Mozilla Thunderbird with DKIM, SPF, DMARC verification, phishing detection, and advanced threat analysis.
 
-image:https://img.shields.io/badge/RSR-Certified-gold[RSR Certified]
-image:https://img.shields.io/badge/License-AGPL%20v3-blue[License]
+== Features
 
-toc::[]
+- ✅ *DKIM Verification*: RFC 6376 compliant signature validation
+- ✅ *SPF Verification*: RFC 7208 sender authorization (v7.0)
+- ✅ *DMARC*: Policy enforcement
+- ✅ *Phishing Detection*: Multi-heuristic threat analysis (v7.0)
+- ✅ *Header Analysis*: Security scoring and privacy leak detection (v7.0)
+- ✅ *DNSBL Checking*: 15+ spam/malware blacklists (v7.0)
+- ✅ *Bayesian Spam Filter*: Adaptive learning (v7.0)
+- ✅ *Email Sanitization*: Content neutering for safety (v7.0)
+- ✅ *Rules Engine*: Declarative security automation (v7.0)
+- 🔄 *VirusTotal* (Optional): URL/domain reputation checking (v7.0)
 
-== Overview
+*All analysis performed locally*. Optional external services (VirusTotal) can be disabled in preferences.
 
-RRecord-Verity is part of the link:https://rhodium.sh[Rhodium Standard] (RSR) ecosystem.
+Usage information can be found in the wiki at <https://github.com/lieser/dkim_verifier/wiki>.
 
-Domain: *email-security*
+== Packing the Add-on
 
-== Installation
+This Add-on does not require any extra build steps.
+All files in the repository are already in the format required by Thunderbird.
+It only needs to be packed into an extension file.
 
-[source,bash]
-----
-# Clone from GitHub (primary)
-git clone {url-github}
+Thunderbird extensions are packed as normal zip files.
+Often the file extension `.xpi` is used,
+but this is not a requirement.
 
-# Or from mirrors
-git clone {url-gitlab}
-git clone {url-codeberg}
-----
+=== Manually
 
-== RSR Stack
+You can simply use your favorite zip tool to pack the content of the extension.
 
-This project follows RSR conventions:
+The required files are listed below under *Code structure*,
+but for simplicity you can also pack the complete folder.
+Just make sure the content is directly in the zip file and not in an extra root directory.
 
-* ✅ ReScript for frontend/logic
-* ✅ Deno for JS runtime
-* ✅ WASM for performance-critical code
-* ✅ Rust/OCaml/Haskell for systems/proofs
-* ✅ Guile/Scheme for configuration
-* ❌ No TypeScript
-* ❌ No Go
-* ❌ No npm
+=== Using Node.js
 
-== Mirrors
+Requirements:
 
-[cols="1,2"]
-|===
-| Platform | URL
+- [Node.js](https://nodejs.org)
+- [Git](https://git-scm.com/) (must be in the path environment variable)
 
-| GitHub (primary) | {url-github}
-| GitLab | {url-gitlab}
-| Bitbucket | {url-bitbucket}
-| Codeberg | {url-codeberg}
-|===
+Run the following command to pack the extension:
 
-== License
+```bash
+npm run pack
+```
 
-Licensed under AGPL-3.0-or-later OR LicenseRef-Palimpsest-0.5.
+== Code structure
 
-See link:LICENSE[LICENSE] for details.
+The root of the repository can be directly loaded as a temporary Add-on in Thunderbird.
 
-== Contributing
+The following directories and files are included in the packed extension:
 
-See link:CONTRIBUTING.adoc[CONTRIBUTING.adoc].
+- `_locales/`: Localize strings.
+  More details in the included [readme](_locales/Readme.md).
+  Only `.json` files are included in the packed extension.
+- `content/`: The background page and various content pages.
+  Also contains some shared modules for working with the DOM.
+  Only `.html`, `.css` and `.js` files are included in the packed extension.
+- `data/`: Data of the included signers rules and favicons.
+- `experiments/`: Experiment APIs. Only `.js`, and `.json` files are included in the packed extension.
+- `modules/`: Internal JavaScript modules (ECMAScript Modules (ESM) / ES6 Modules).
+  Contains most of the business logic.
+  Only `.js` files are included in the packed extension.
+- `thirdparty`: Most of the included third-party libraries.
+- `CHANGELOG.md`: Changelog of user visible changes.
+- `icon.svg`: Icon of the extension.
+- `LICENSE.txt`: Licensing information for the extension.
+- `manifest.json`: Manifest file containing basic metadata about the extension.
+- `README.md`: This readme.
+- `THIRDPARTY_LICENSE.txt`: Licensing information for included third party
+software components.
 
-== Metadata
+Other directories and files are used only for development. This includes:
 
-* Domain: email-security
-* Framework: RSR (Rhodium Standard Repository)
-* Dublin Core: link:.well-known/dc.xml[.well-known/dc.xml]
+- `scripts`: Node.js scripts used during development.
+- `test`: Automated tests.
+  More details in the included [readme](test/Readme.md).
+- `icon-black-64.png`: Icon of the extension used on ATN, generated from `icon-black.svg`.
+
+== Included third-party Libraries
+
+- Joshua Tauberer's DNS Library (part of Thunderbird Sender Verification Extension) (<https://github.com/tauberer/thunderbird-spf>)
+  - dns.js - DNS Library
+- [Tabulator](https://tabulator.info)
+- ES6 version of the [tweetnacl-js](https://github.com/dchest/tweetnacl-js) `nacl-fast.js` (<https://github.com/hakanols/tweetnacl-es6>)
