@@ -31,7 +31,7 @@ this.mailUtils = class extends ExtensionCommon.ExtensionAPI {
 				// eslint-disable-next-line require-await
 				getBaseDomainFromAddr: async (addr) => {
 					// var fullDomain = addr.substr(addr.lastIndexOf("@")+1);
-					const nsiURI = Services.io.newURI(`http://${addr}`);
+					const nsiURI = Services.io.newURI(`https://${addr}`);
 					try {
 						return Services.eTLD.getBaseDomain(nsiURI);
 					} catch (error) {

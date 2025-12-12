@@ -150,7 +150,7 @@ let lib;
 let libDeps = [];
 /** @type {p_ub_ctx} */
 let ctx = ctypes.voidptr_t();
-// http://unbound.net/documentation/libunbound.html
+// https://unbound.net/documentation/libunbound.html
 /** @typedef {ctypes.CDataPointerType<ub_ctx_struct>} p_ub_ctx */
 /** @type {ub_ctx_struct|undefined} */
 let ub_ctx;

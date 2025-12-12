@@ -16,7 +16,7 @@ https://addons.thunderbird.net/addon/sender-verification-anti-phish/
 License:
 ********************************************************************************
 
-Copyright 2005 Joshua Tauberer <http://razor.occams.info>
+Copyright 2005 Joshua Tauberer <https://razor.occams.info>
 
 Feel free to use this file however you want, but
 credit would be nice.

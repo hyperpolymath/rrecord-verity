@@ -13,14 +13,14 @@ List of TweetNaCl.js authors
 List of authors of third-party public domain code from which TweetNaCl.js code was derived
 ==========================================================================================
 
-[TweetNaCl](http://tweetnacl.cr.yp.to/)
+[TweetNaCl](https://tweetnacl.cr.yp.to/)
 --------------------------------------
 
 * Bernard van Gastel
-* Daniel J. Bernstein <http://cr.yp.to/djb.html>
-* Peter Schwabe <http://www.cryptojedi.org/users/peter/>
-* Sjaak Smetsers <http://www.cs.ru.nl/~sjakie/>
-* Tanja Lange <http://hyperelliptic.org/tanja>
+* Daniel J. Bernstein <https://cr.yp.to/djb.html>
+* Peter Schwabe <https://www.cryptojedi.org/users/peter/>
+* Sjaak Smetsers <https://www.cs.ru.nl/~sjakie/>
+* Tanja Lange <https://hyperelliptic.org/tanja>
 * Wesley Janssen
 
 

@@ -49,11 +49,11 @@ export default class DNSBL {
 		{ name: "Spamhaus XBL", zone: "xbl.spamhaus.org", severity: "high", url: "https://www.spamhaus.org/xbl/" },
 		{ name: "Spamhaus PBL", zone: "pbl.spamhaus.org", severity: "medium", url: "https://www.spamhaus.org/pbl/" },
 		{ name: "SpamCop", zone: "bl.spamcop.net", severity: "medium", url: "https://www.spamcop.net/" },
-		{ name: "SORBS SPAM", zone: "spam.dnsbl.sorbs.net", severity: "medium", url: "http://www.sorbs.net/" },
+		{ name: "SORBS SPAM", zone: "spam.dnsbl.sorbs.net", severity: "medium", url: "https://www.sorbs.net/" },
 		{ name: "Barracuda", zone: "b.barracudacentral.org", severity: "medium", url: "https://www.barracudacentral.org/" },
 
 		// Domain-based blacklists
-		{ name: "SURBL", zone: "multi.surbl.org", severity: "high", url: "http://www.surbl.org/", domain: true },
+		{ name: "SURBL", zone: "multi.surbl.org", severity: "high", url: "https://www.surbl.org/", domain: true },
 		{ name: "URIBL", zone: "multi.uribl.com", severity: "high", url: "http://uribl.com/", domain: true },
 		{ name: "DBL Spamhaus", zone: "dbl.spamhaus.org", severity: "high", url: "https://www.spamhaus.org/dbl/", domain: true },
 
@@ -64,7 +64,7 @@ export default class DNSBL {
 		// Other notable lists
 		{ name: "PSBL", zone: "psbl.surriel.com", severity: "medium", url: "https://psbl.org/" },
 		{ name: "CBL", zone: "cbl.abuseat.org", severity: "high", url: "https://cbl.abuseat.org/" },
-		{ name: "Invaluement", zone: "ivmuri.invaluement.com", severity: "medium", url: "http://www.invaluement.com/" },
+		{ name: "Invaluement", zone: "ivmuri.invaluement.com", severity: "medium", url: "https://www.invaluement.com/" },
 	];
 
 	/**

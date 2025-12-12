@@ -533,7 +533,7 @@ class DkimSignatureHeader {
 						%d127 ; white space characters
 
 		about RegEx and valid mail addresses:
-		http://stackoverflow.com/questions/201323/using-a-regular-expression-to-validate-an-email-address
+		https://stackoverflow.com/questions/201323/using-a-regular-expression-to-validate-an-email-address
 		*/
 
 		const local_part = RfcParser.dot_atom_text;
