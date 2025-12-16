@@ -4,7 +4,7 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Block new TypeScript/JavaScript
         run: |
           NEW_TS=$(git diff --name-only --diff-filter=A HEAD~1 2>/dev/null | grep -E '\.(ts|tsx)$' | grep -v '\.gen\.' || true)
