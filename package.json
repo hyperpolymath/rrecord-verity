@@ -51,7 +51,7 @@
 		"@types/sinon": "^17.0.3",
 		"@types/tabulator-tables": "^6.2.4",
 		"@types/thunderbird-webext-browser": "^127.0.0",
-		"chai": "^5.1.2",
+		"chai": "^6.2.1",
 		"chalk": "^5.4.1",
 		"eslint": "^9.18.0",
 		"eslint-plugin-import": "^2.31.0",
