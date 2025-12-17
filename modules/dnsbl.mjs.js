@@ -54,7 +54,7 @@ export default class DNSBL {
 
 		// Domain-based blacklists
 		{ name: "SURBL", zone: "multi.surbl.org", severity: "high", url: "https://www.surbl.org/", domain: true },
-		{ name: "URIBL", zone: "multi.uribl.com", severity: "high", url: "http://uribl.com/", domain: true },
+		{ name: "URIBL", zone: "multi.uribl.com", severity: "high", url: "https://uribl.com/", domain: true },
 		{ name: "DBL Spamhaus", zone: "dbl.spamhaus.org", severity: "high", url: "https://www.spamhaus.org/dbl/", domain: true },
 
 		// Malware/Phishing lists

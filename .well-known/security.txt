@@ -4,9 +4,10 @@
 # Canonical URL (update if hosting changes)
 Canonical: https://github.com/lieser/dkim_verifier/blob/main/.well-known/security.txt
 
-# Primary security contact - PLEASE UPDATE WITH ACTUAL EMAIL
-Contact: mailto:security@example.com
+# Primary security contact - GitHub Security Advisories (preferred)
+# Note: Email contact should be configured by the maintainer
 Contact: https://github.com/lieser/dkim_verifier/security/advisories/new
+Contact: https://github.com/hyperpolymath/rrecord-verity/security/advisories/new
 
 # Preferred language for security reports
 Preferred-Languages: en, de
