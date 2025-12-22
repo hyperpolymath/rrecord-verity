@@ -56,7 +56,7 @@
 		"eslint": "^9.18.0",
 		"eslint-plugin-import": "^2.31.0",
 		"eslint-plugin-jsdoc": "^61.5.0",
-		"eslint-plugin-mocha": "^10.5.0",
+		"eslint-plugin-mocha": "^11.2.0",
 		"eslint-plugin-mozilla": "^4.0.0",
 		"eslint-plugin-unicorn": "^59.0.1",
 		"globals": "^16.5.0",
