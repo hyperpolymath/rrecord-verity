@@ -60,7 +60,7 @@
 		"eslint-plugin-mozilla": "^4.0.0",
 		"eslint-plugin-unicorn": "^59.0.1",
 		"globals": "^16.5.0",
-		"globby": "^14.0.2",
+		"globby": "^16.1.0",
 		"http-server": "^14.1.1",
 		"jszip": "^3.10.1",
 		"marked": "^16.3.0",
