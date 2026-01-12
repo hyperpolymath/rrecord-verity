@@ -1,6 +1,9 @@
-= DKIM Verifier
+= RRecord Verity - the resource record verifier for Thunderbird
 
-image:https://img.shields.io/badge/license-Palimpsest--MPL--1.0-purple.svg[Palimpsest-MPL-1.0,link="https://github.com/hyperpolymath/palimpsest-license"] image:https://img.shields.io/badge/philosophy-Palimpsest-purple.svg[Palimpsest,link="https://github.com/hyperpolymath/palimpsest-licence"]
+image:[License,link="https://github.com/hyperpolymath/palimpsest-license"]
+
+// SPDX-License-Identifier: PMPL-1.0
+// SPDX-FileCopyrightText: 2025 hyperpolymath
 
 Comprehensive email security suite for Mozilla Thunderbird with DKIM, SPF, DMARC verification, phishing detection, and advanced threat analysis.
 
