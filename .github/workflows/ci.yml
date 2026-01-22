@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: PMPL-1.0-or-later
 name: CI
 
 on:
@@ -71,4 +72,3 @@ jobs:
       with:
         name: Event File
         path: ${{ github.event_path }}
-
