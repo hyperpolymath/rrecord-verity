@@ -99,3 +99,8 @@ Other directories and files are used only for development. This includes:
   - dns.js - DNS Library
 - [Tabulator](https://tabulator.info)
 - ES6 version of the [tweetnacl-js](https://github.com/dchest/tweetnacl-js) `nacl-fast.js` (<https://github.com/hakanols/tweetnacl-es6>)
+
+
+== Architecture
+
+See link:TOPOLOGY.md[TOPOLOGY.md] for a visual architecture map and completion dashboard.
