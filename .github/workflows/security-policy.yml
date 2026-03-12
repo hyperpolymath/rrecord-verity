@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MPL-2.0-or-later
+permissions: read-all
+
 name: Security Policy
 on: [push, pull_request]
 jobs:
@@ -24,7 +27,7 @@ jobs:
           fi
           
           # Block hardcoded secrets patterns
-          SECRETS=$(grep -rEi '(api_key|apikey|secret_key|password)\s*[=:]\s*["\x27][A-Za-z0-9+/=]{20,}' --include="*.py" --include="*.js" --include="*.ts" --include="*.go" --include="*.rs" --include="*.env" . 2>/dev/null | grep -v 'example\|sample\|test\|mock\|placeholder' | head -3 || true)
+          SECRETS=$(grep -rEi '(api_key|apikey|secret_key|password)\s*[=:]\s*["'][A-Za-z0-9+/=]{20,}' --include="*.py" --include="*.js" --include="*.ts" --include="*.go" --include="*.rs" --include="*.env" . 2>/dev/null | grep -v 'example\|sample\|test\|mock\|placeholder' | head -3 || true)
           if [ -n "$SECRETS" ]; then
             echo "❌ Potential hardcoded secrets detected!"
             FAILED=true

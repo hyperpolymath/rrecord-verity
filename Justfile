@@ -174,3 +174,8 @@ ci: lint check test verify-rsr
 # Simulate release build
 ci-release: ci pack
 	@echo "✓ Release build successful"
+
+# [AUTO-GENERATED] Multi-arch / RISC-V target
+build-riscv:
+	@echo "Building for RISC-V..."
+	cross build --target riscv64gc-unknown-linux-gnu
