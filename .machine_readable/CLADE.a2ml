@@ -1,0 +1,26 @@
+# SPDX-License-Identifier: PMPL-1.0-or-later
+# Clade declaration — part of the gv-clade-index registry
+# See: https://github.com/hyperpolymath/gv-clade-index
+
+[identity]
+uuid = "82633fac-461f-591e-b3f0-6a085f902067"
+primary-forge = "github"
+primary-owner = "hyperpolymath"
+canonical-name = "rrecord-verity"
+prefixed-name = "pt-rrecord-verity"
+
+[clade]
+primary = "pt"
+secondary = []
+assigned = "2026-03-16"
+rationale = ""
+
+[forges]
+github = "hyperpolymath/rrecord-verity"
+gitlab = "hyperpolymath/rrecord-verity"
+bitbucket = "hyperpolymath/rrecord-verity"
+
+[lineage]
+type = "standalone"
+parent = "Resource record verification"
+born = "2026-03-16"
