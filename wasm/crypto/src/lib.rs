@@ -6,6 +6,7 @@
 // Copyright (c) 2025 DKIM Verifier Contributors
 // Licensed under MIT License
 
+#![forbid(unsafe_code)]
 use wasm_bindgen::prelude::*;
 use sha2::{Sha256, Sha512, Digest};
 use ed25519_dalek::{Verifier, Signature, VerifyingKey};
