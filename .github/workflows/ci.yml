@@ -57,7 +57,7 @@ jobs:
       - name: Run tests
         run: npm run test:ci
       - name: Upload test results
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
         if: success() || failure()
         with:
           name: test-results
@@ -68,7 +68,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Upload
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
       with:
         name: Event File
         path: ${{ github.event_path }}
