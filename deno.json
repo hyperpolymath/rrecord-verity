@@ -5,8 +5,11 @@
 		"check": "deno check --config deno.json scripts/*.js modules/**/*.mjs.js",
 		"test": "deno run --allow-read --allow-env npm:mocha --recursive test/unittest",
 		"test:watch": "deno run --allow-read --allow-env --watch npm:mocha --recursive test/unittest",
+		"test:deno": "deno test --allow-read tests/",
+		"test:deno:watch": "deno test --allow-read --watch tests/",
+		"test:bench": "deno bench --allow-read tests/bench/",
 		"verify-rsr": "deno run --allow-read scripts/verify-rsr.js",
-		"verify": "deno task lint && deno task check && deno task test && deno task verify-rsr",
+		"verify": "deno task lint && deno task check && deno task test && deno task test:deno && deno task verify-rsr",
 		"pack": "deno run --allow-read --allow-write --allow-run scripts/pack.js",
 		"dev": "deno run --allow-net --allow-read npm:http-server . -c-1",
 		"update-thirdparty": "deno run --allow-read --allow-write --allow-net scripts/update-thirdparty.js"
