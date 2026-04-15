@@ -3,6 +3,8 @@
 # Install just: https://github.com/casey/just
 
 # Default task - show available commands
+import? "contractile.just"
+
 default:
 	@just --list
 
