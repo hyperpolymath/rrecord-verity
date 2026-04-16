@@ -144,7 +144,7 @@ pub fn extract_email_address(header_value: &str) -> Result<String, JsValue> {
 #[wasm_bindgen]
 pub fn extract_tokens(text: &str) -> Vec<String> {
     let text_lower = text.to_lowercase();
-    let word_regex = Regex::new(r"\b[a-z0-9]{3,50}\b").unwrap();
+    let word_regex = Regex::new(r"\b[a-z0-9]{3,50}\b").expect("TODO: handle error");
 
     let mut tokens: Vec<String> = word_regex
         .find_iter(&text_lower)
@@ -211,7 +211,7 @@ mod tests {
     #[test]
     fn test_parse_simple_email() {
         let email = "From: test@example.com\r\nSubject: Test\r\n\r\nBody";
-        let result = parse_email_internal(email).unwrap();
+        let result = parse_email_internal(email).expect("TODO: handle error");
         assert!(result.headers.contains_key("from"));
         assert!(result.headers.contains_key("subject"));
         assert_eq!(result.body, "Body");
@@ -220,7 +220,7 @@ mod tests {
     #[test]
     fn test_extract_email() {
         let header = "John Doe <john@example.com>";
-        let email = extract_email_address(header).unwrap();
+        let email = extract_email_address(header).expect("TODO: handle error");
         assert_eq!(email, "john@example.com");
     }
 

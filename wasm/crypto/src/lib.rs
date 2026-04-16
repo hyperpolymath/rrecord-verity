@@ -208,7 +208,7 @@ mod tests {
     fn test_base64_roundtrip() {
         let data = b"Test data";
         let encoded = base64_encode(data);
-        let decoded = base64_decode(&encoded).unwrap();
+        let decoded = base64_decode(&encoded).expect("TODO: handle error");
         assert_eq!(data.to_vec(), decoded);
     }
 }
