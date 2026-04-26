@@ -68,7 +68,7 @@
 		"mocha-multi": "^1.1.7",
 		"simple-git": "^3.27.0",
 		"sinon": "^21.0.1",
-		"ts-essentials": "^10.0.4",
+		"ts-essentials": "^10.2.0",
 		"tsc-silent": "^1.2.2",
 		"typescript": "^6.0.2"
 	},
