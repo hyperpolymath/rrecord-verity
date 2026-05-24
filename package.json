@@ -64,7 +64,7 @@
 		"http-server": "^14.1.1",
 		"jszip": "^3.10.1",
 		"marked": "^18.0.3",
-		"mocha": "^11.0.1",
+		"mocha": "^11.7.6",
 		"mocha-multi": "^1.1.7",
 		"simple-git": "^3.27.0",
 		"sinon": "^22.0.0",
