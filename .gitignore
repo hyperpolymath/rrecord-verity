@@ -85,3 +85,10 @@ deps/
 .cache/
 build/
 dist/
+
+# npm/yarn/pnpm/bun lockfiles (Deno-only repo)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+bun.lockb
+.npmrc

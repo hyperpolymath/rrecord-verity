@@ -11,19 +11,17 @@ permissions:
 
 jobs:
   ESLint:
-    name: ESLint
+    name: Lint
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-      - name: Setup Node.js
-        uses: actions/setup-node@49933ea5288caeca8642195f2b846b8bbe245a93 # v4
+      - name: Setup Deno
+        uses: denoland/setup-deno@667a34cdef165d8d2b2e98dde39547c9daac7282 # v2
         with:
-          node-version: 22
-      - name: Install Node.js dependencies
-        run: npm ci
-      - name: Run ESLint
-        run: npm run lint:ci
+          deno-version: v1.x
+      - name: Run Deno lint
+        run: deno task lint
 
   checkJs:
     name: Type Check
@@ -31,16 +29,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-      - name: Setup Node.js
-        uses: actions/setup-node@49933ea5288caeca8642195f2b846b8bbe245a93 # v4
+      - name: Setup Deno
+        uses: denoland/setup-deno@667a34cdef165d8d2b2e98dde39547c9daac7282 # v2
         with:
-          node-version: 22
-      - name: Install Node.js dependencies
-        run: npm ci
-      - name: Register Problem Matcher for colored tsc output
-        run: echo "##[add-matcher].github/problemMatchers/tsc-pretty.json"
+          deno-version: v1.x
       - name: Run type checking
-        run: npm run checkJs
+        run: deno task check
 
   test:
     name: Unittest
@@ -48,14 +42,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-      - name: Setup Node.js
-        uses: actions/setup-node@49933ea5288caeca8642195f2b846b8bbe245a93 # v4
+      - name: Setup Deno
+        uses: denoland/setup-deno@667a34cdef165d8d2b2e98dde39547c9daac7282 # v2
         with:
-          node-version: 22
-      - name: Install Node.js dependencies
-        run: npm ci
+          deno-version: v1.x
       - name: Run tests
-        run: npm run test:ci
+        run: deno task test
       - name: Upload test results
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
         if: success() || failure()
