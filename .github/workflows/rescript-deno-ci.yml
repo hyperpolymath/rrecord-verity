@@ -26,8 +26,7 @@ jobs:
       - name: ReScript build
         run: |
           if [ -f "rescript.json" ] || [ -f "bsconfig.json" ]; then
-            npm install
-            npx rescript
+            deno run -A --node-modules-dir=auto npm:rescript
           fi
       
       - name: Type check
