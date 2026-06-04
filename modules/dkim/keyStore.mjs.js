@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 /**
  * Abstract DKIM key store for key retrieval.
  * Will get the key either from DNS or an internal cache.

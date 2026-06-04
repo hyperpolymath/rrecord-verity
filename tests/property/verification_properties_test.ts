@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MPL-2.0
-// Copyright (c) 2025 Jonathan D.A. Jewell <6759885+hyperpolymath@users.noreply.github.com>
-
+// Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 /// <reference lib="deno.ns" />
 
 /**

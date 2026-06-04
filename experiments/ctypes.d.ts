@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 // https://developer.mozilla.org/en-US/docs/Mozilla/js-ctypes
 declare module ctypes {
     // https://developer.mozilla.org/en-US/docs/Mozilla/js-ctypes/js-ctypes_reference/CData

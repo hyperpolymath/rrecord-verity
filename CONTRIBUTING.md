@@ -1,3 +1,7 @@
+<!--
+SPDX-License-Identifier: MPL-2.0
+Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
+-->
 # Contributing to DKIM Verifier
 
 Thank you for your interest in contributing to DKIM Verifier! This document outlines our **Tri-Perimeter Contribution Framework (TPCF)** and how to get involved.

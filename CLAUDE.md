@@ -1,3 +1,7 @@
+<!--
+SPDX-License-Identifier: MPL-2.0
+Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
+-->
 # CLAUDE.md - AI Assistant Guide for DKIM Verifier
 
 This guide helps AI assistants understand and work effectively with the DKIM Verifier codebase.

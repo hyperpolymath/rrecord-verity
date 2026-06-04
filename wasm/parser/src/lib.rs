@@ -1,9 +1,10 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 // DKIM Email Parser - WebAssembly Module
 //
 // High-performance email header and body parsing.
 // Compiled to WebAssembly for faster parsing of large emails.
 //
-// Copyright (c) 2025 DKIM Verifier Contributors
 // Licensed under MIT License
 
 #![forbid(unsafe_code)]

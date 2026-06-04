@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 /**
  * Implements a very small part of DMARC to determined if an e-mail should
  * have a DKIM signature.

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 /**
  * Brand Indicators for Message Identification (BIMI).
  * https://datatracker.ietf.org/doc/draft-brand-indicators-for-message-identification/04/

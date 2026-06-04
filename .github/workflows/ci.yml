@@ -13,6 +13,7 @@ jobs:
   ESLint:
     name: Lint
     runs-on: ubuntu-24.04
+    timeout-minutes: 15
     steps:
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
@@ -26,6 +27,7 @@ jobs:
   checkJs:
     name: Type Check
     runs-on: ubuntu-24.04
+    timeout-minutes: 15
     steps:
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
@@ -39,6 +41,7 @@ jobs:
   test:
     name: Unittest
     runs-on: ubuntu-24.04
+    timeout-minutes: 15
     steps:
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
@@ -58,6 +61,7 @@ jobs:
   event_file:
     name: Event File
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
     - name: Upload
       uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6

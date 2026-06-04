@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 // The following is for Visual Studio Code IntelliSense only:
 // The type detection via JSDoc fails at some places, so we additionally have to specify them here.
 declare module IAuthVerifier {

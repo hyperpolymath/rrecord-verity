@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 /**
  * Proxy to a singleton KeyDb to avoid problems with race conditions
  * when accessing browser.storage.local.

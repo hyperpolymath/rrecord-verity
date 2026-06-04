@@ -1,3 +1,7 @@
+<!--
+SPDX-License-Identifier: MPL-2.0
+Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
+-->
 # WebAssembly Modules for DKIM Verifier
 
 High-performance WebAssembly modules for performance-critical email security operations.

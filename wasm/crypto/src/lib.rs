@@ -1,9 +1,10 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 // DKIM Cryptographic Operations - WebAssembly Module
 //
 // High-performance cryptographic primitives for DKIM signature verification.
 // Compiled to WebAssembly for near-native speed in the browser.
 //
-// Copyright (c) 2025 DKIM Verifier Contributors
 // Licensed under MIT License
 
 #![forbid(unsafe_code)]

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 /**
  * Verifies the DKIM-Signatures as specified in RFC 6376.
  * https://www.rfc-editor.org/rfc/rfc6376.html

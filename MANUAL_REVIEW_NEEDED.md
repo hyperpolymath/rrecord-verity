@@ -1,3 +1,7 @@
+<!--
+SPDX-License-Identifier: MPL-2.0
+Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
+-->
 # ⚠️ Large Codebase - Manual Review Required
 
 This repository has substantial TS/JS code (>5000 lines).

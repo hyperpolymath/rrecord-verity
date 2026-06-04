@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MPL-2.0
+// Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 interface LoggerI {
     fatal(message?: any, ...optionalParams: any[]): void;
     error(message?: any, ...optionalParams: any[]): void;

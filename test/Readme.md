@@ -1,3 +1,7 @@
+<!--
+SPDX-License-Identifier: MPL-2.0
+Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
+-->
 # Running tests
 
 The unit test are written with [Mocha](https://mochajs.org/) and [Chai](https://www.chaijs.com/).
