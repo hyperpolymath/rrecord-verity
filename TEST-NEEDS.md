@@ -1,5 +1,5 @@
 <!--
-SPDX-License-Identifier: MPL-2.0
+SPDX-License-Identifier: CC-BY-SA-4.0
 Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 -->
 # Test Coverage Blitz: CRG C Achieved
@@ -233,7 +233,7 @@ Added new tasks to `deno.json`:
 
 ## License & Attribution
 
-- All new test files: SPDX-License-Identifier: MPL-2.0
+- All new test files: SPDX-License-Identifier: CC-BY-SA-4.0
 - Author: Jonathan D.A. Jewell <6759885+hyperpolymath@users.noreply.github.com>
 - Respects existing MIT license of rrecord-verity
 
