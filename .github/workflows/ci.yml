@@ -6,6 +6,7 @@ on:
   - pull_request
 
 permissions:
+  actions: read
   contents: read
   # implicitly all other scopes not listed become none
 
