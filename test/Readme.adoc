@@ -1,0 +1,37 @@
+== Running tests
+
+The unit test are written with https://mochajs.org/[Mocha] and
+https://www.chaijs.com/[Chai].
+
+The following assumes all Node.js dependencies were installed via
+`+npm install+`.
+
+Unless otherwise specified run all commands from the root of the
+repository.
+
+=== Running unit tests in a browser
+
+Because of _CORS_ opening the runner html page directly from the file
+system does not work. A HTTP server is needed instead.
+
+Below is an example with Node’s
+https://www.npmjs.com/package/http-server[http-server].
+
+[source,powershell]
+----
+# Start the server in the root directory of the repository
+npx http-server . -c-1
+
+# Open the test runner page
+# http://localhost:8080/test/unittest/SpecRunner.html
+----
+
+=== Running unit test in Node
+
+[source,powershell]
+----
+# Run tests with
+npm run test
+# Or directly call mocha
+npx mocha
+----
