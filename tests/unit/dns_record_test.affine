@@ -1,4 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
+// Ported via Harvard Engine mechanical processor
+
+module dns_record_test;
+
+// TODO: Complete semantic implementation
+
+/* === ORIGINAL TYPESCRIPT CONTEXT ===
+// SPDX-License-Identifier: MPL-2.0
 // Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 /// <reference lib="deno.ns" />
 
@@ -188,3 +196,5 @@ Deno.test("DNS Records - Whitespace Handling", () => {
 	// Should handle gracefully (our regex allows whitespace)
 	assertEquals(parsed !== null, true);
 });
+
+==================================== */

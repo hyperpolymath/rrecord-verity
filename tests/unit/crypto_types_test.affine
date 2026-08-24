@@ -1,4 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
+// Ported via Harvard Engine mechanical processor
+
+module crypto_types_test;
+
+// TODO: Complete semantic implementation
+
+/* === ORIGINAL TYPESCRIPT CONTEXT ===
+// SPDX-License-Identifier: MPL-2.0
 // Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 /// <reference lib="deno.ns" />
 
@@ -188,3 +196,5 @@ Deno.test("Crypto Types - Signature Algorithm Enum", () => {
 		assertEquals(validateAlgorithmName(algo.name), true);
 	}
 });
+
+==================================== */
