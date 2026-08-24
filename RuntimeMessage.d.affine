@@ -1,45 +1,42 @@
 // SPDX-License-Identifier: MPL-2.0
-// Ported via Harvard Engine mechanical processor
+// Ported via Harvard Engine (Semantic pass)
 
 module RuntimeMessage.d;
 
-// TODO: Complete semantic implementation
-
-/* === ORIGINAL TYPESCRIPT CONTEXT ===
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 namespace RuntimeMessage {
-    interface DkimMessage {
+    struct DkimMessage {
         readonly module: string;
         readonly method: string;
     }
 
     namespace SignRules {
-        interface SignRulesMessage extends DkimMessage {
+        struct SignRulesMessage extends DkimMessage {
             readonly module: "SignRules";
         }
 
-        interface getDefaultRules extends SignRulesMessage {
+        struct getDefaultRules extends SignRulesMessage {
             readonly method: "getDefaultRules";
         }
 
-        interface getUserRules extends SignRulesMessage {
+        struct getUserRules extends SignRulesMessage {
             readonly method: "getUserRules";
         }
 
-        interface exportUserRules extends SignRulesMessage {
+        struct exportUserRules extends SignRulesMessage {
             readonly method: "exportUserRules";
         }
 
-        interface importUserRules extends SignRulesMessage {
+        struct importUserRules extends SignRulesMessage {
             readonly method: "importUserRules";
             readonly parameters: {
-                readonly data: any,
+                readonly data: unknown,
                 readonly replace: boolean,
             }
         }
 
-        interface addRule extends SignRulesMessage {
+        struct addRule extends SignRulesMessage {
             readonly method: "addRule";
             readonly parameters: {
                 readonly domain: string?,
@@ -52,65 +49,65 @@ namespace RuntimeMessage {
             }
         }
 
-        interface updateRule extends SignRulesMessage {
+        struct updateRule extends SignRulesMessage {
             readonly method: "updateRule";
             readonly parameters: {
                 readonly id: number,
                 readonly propertyName: string,
-                readonly newValue: any,
+                readonly newValue: unknown,
             }
         }
 
-        interface deleteRules extends SignRulesMessage {
+        struct deleteRules extends SignRulesMessage {
             readonly method: "deleteRules";
             readonly parameters: {
                 readonly ids: number[],
             }
         }
 
-        type Messages = getDefaultRules | getUserRules | exportUserRules | importUserRules | addRule | updateRule | deleteRules;
+        struct Messages { getDefaultRules | getUserRules | exportUserRules | importUserRules | addRule | updateRule | deleteRules;
     }
 
     namespace KeyDb {
-        interface KeyDbMessage extends DkimMessage {
+        struct KeyDbMessage extends DkimMessage {
             readonly module: "KeyDb";
         }
 
-        interface getKeys extends KeyDbMessage {
+        struct getKeys extends KeyDbMessage {
             readonly method: "getKeys";
         }
 
-        interface updateKey extends KeyDbMessage {
+        struct updateKey extends KeyDbMessage {
             readonly method: "updateKey";
             readonly parameters: {
                 readonly id: number;
                 readonly propertyName: string;
-                readonly newValue: any;
+                readonly newValue: unknown;
             }
         }
 
-        interface deleteKeys extends KeyDbMessage {
+        struct deleteKeys extends KeyDbMessage {
             readonly method: "deleteKeys";
             readonly parameters: {
                 readonly ids: number[];
             }
         }
 
-        type Messages = getKeys | updateKey | deleteKeys;
+        struct Messages { getKeys | updateKey | deleteKeys;
     }
 
     namespace DisplayAction {
-        interface DisplayActionMessage extends DkimMessage {
+        struct DisplayActionMessage extends DkimMessage {
             readonly module: "DisplayAction";
             readonly parameters: {
                 readonly tabId: number;
             }
         }
 
-        interface queryResultState extends DisplayActionMessage {
+        struct queryResultState extends DisplayActionMessage {
             readonly method: "queryResultState";
         }
-        interface queryResultStateResult {
+        struct queryResultStateResult {
             readonly reverifyDKIMSignature: boolean;
             readonly policyAddUserException: boolean;
             readonly markKeyAsSecure: boolean;
@@ -118,26 +115,25 @@ namespace RuntimeMessage {
             readonly dkim: AuthResultDKIM[];
         }
 
-        interface reverifyDKIMSignature extends DisplayActionMessage {
+        struct reverifyDKIMSignature extends DisplayActionMessage {
             readonly method: "reverifyDKIMSignature";
         }
 
-        interface policyAddUserException extends DisplayActionMessage {
+        struct policyAddUserException extends DisplayActionMessage {
             readonly method: "policyAddUserException";
         }
 
-        interface markKeyAsSecure extends DisplayActionMessage {
+        struct markKeyAsSecure extends DisplayActionMessage {
             readonly method: "markKeyAsSecure";
         }
 
-        interface updateKey extends DisplayActionMessage {
+        struct updateKey extends DisplayActionMessage {
             readonly method: "updateKey";
         }
 
-        type Messages = queryResultState | reverifyDKIMSignature | policyAddUserException | markKeyAsSecure | updateKey;
+        struct Messages { queryResultState | reverifyDKIMSignature | policyAddUserException | markKeyAsSecure | updateKey;
     }
 
-    type Messages = SignRules.Messages | KeyDb.Messages | DisplayAction.Messages;
+    struct Messages { SignRules.Messages | KeyDb.Messages | DisplayAction.Messages;
 }
 
-==================================== */

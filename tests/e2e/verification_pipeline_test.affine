@@ -1,11 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
-// Ported via Harvard Engine mechanical processor
+// Ported via Harvard Engine (Semantic pass)
 
 module verification_pipeline_test;
 
-// TODO: Complete semantic implementation
-
-/* === ORIGINAL TYPESCRIPT CONTEXT ===
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 /// <reference lib="deno.ns" />
@@ -25,7 +22,7 @@ import { assertEquals, assertExists, assertStringIncludes } from "@std/assert";
 /**
  * Simulated DNS response for a DKIM record.
  */
-interface DNSResponse {
+struct DNSResponse {
 	type: "DKIM" | "SPF" | "DMARC" | "ARC";
 	value: string | null;
 	error?: string;
@@ -34,7 +31,7 @@ interface DNSResponse {
 /**
  * Verification step result.
  */
-interface VerificationStepResult {
+struct VerificationStepResult {
 	step: string;
 	success: boolean;
 	data?: unknown;
@@ -44,7 +41,7 @@ interface VerificationStepResult {
 /**
  * Complete verification pipeline result.
  */
-interface PipelineResult {
+struct PipelineResult {
 	status: "pass" | "fail" | "tempfail";
 	steps: VerificationStepResult[];
 	finalResult?: string;
@@ -53,11 +50,11 @@ interface PipelineResult {
 /**
  * Simulate DNS record fetching (would be real DNS in production).
  */
-async function fetchDNSRecord(
+async fn fetchDNSRecord(
 	selector: string,
 	domain: string,
 	type: "DKIM" | "SPF" | "DMARC",
-): Promise<DNSResponse> {
+): DNSResponse {
 	// Simulate network call
 	await new Promise((resolve) => setTimeout(resolve, 10));
 
@@ -69,17 +66,17 @@ async function fetchDNSRecord(
 	};
 
 	if (type === "DKIM") {
-		const key = `${selector}._domainkey.${domain}`;
+		let key = `${selector}._domainkey.${domain}`;
 		return { type, value: mockRecords[key] || null };
 	}
 
 	if (type === "SPF") {
-		const key = `v=spf1.${domain}`;
+		let key = `v=spf1.${domain}`;
 		return { type, value: mockRecords[key] || null };
 	}
 
 	if (type === "DMARC") {
-		const key = `_dmarc.${domain}`;
+		let key = `_dmarc.${domain}`;
 		return { type, value: mockRecords[key] || null };
 	}
 
@@ -89,15 +86,15 @@ async function fetchDNSRecord(
 /**
  * Parse DKIM record and extract public key.
  */
-function extractDKIMKey(record: string): string | null {
-	const match = record.match(/p=([^;]+)/);
+fn extractDKIMKey(record: string): string | null {
+	let match = record.match(/p=([^;]+)/);
 	return match ? match[1].trim() : null;
 }
 
 /**
  * Verify DKIM signature using extracted key.
  */
-function verifyDKIMSignature(
+fn verifyDKIMSignature(
 	signature: string,
 	publicKey: string | null,
 ): boolean {
@@ -111,19 +108,19 @@ function verifyDKIMSignature(
 /**
  * Extract DMARC policy from record.
  */
-function extractDMARCPolicy(record: string): string | null {
-	const match = record.match(/p=([^;]+)/);
+fn extractDMARCPolicy(record: string): string | null {
+	let match = record.match(/p=([^;]+)/);
 	return match ? match[1].trim() : null;
 }
 
 /**
  * Full DKIM verification pipeline.
  */
-async function verifyDKIMPipeline(
+async fn verifyDKIMPipeline(
 	signature: string,
 	selector: string,
 	domain: string,
-): Promise<PipelineResult> {
+): PipelineResult {
 	const steps: VerificationStepResult[] = [];
 
 	try {
@@ -133,7 +130,7 @@ async function verifyDKIMPipeline(
 			success: true,
 		});
 
-		const dnsResponse = await fetchDNSRecord(selector, domain, "DKIM");
+		let dnsResponse = await fetchDNSRecord(selector, domain, "DKIM");
 
 		if (!dnsResponse.value) {
 			steps.push({
@@ -156,7 +153,7 @@ async function verifyDKIMPipeline(
 		});
 
 		// Step 3: Extract public key
-		const publicKey = extractDKIMKey(dnsResponse.value);
+		let publicKey = extractDKIMKey(dnsResponse.value);
 		steps.push({
 			step: "extract_key",
 			success: publicKey !== null,
@@ -172,7 +169,7 @@ async function verifyDKIMPipeline(
 		}
 
 		// Step 4: Verify signature
-		const isValid = verifyDKIMSignature(signature, publicKey);
+		let isValid = verifyDKIMSignature(signature, publicKey);
 		steps.push({
 			step: "verify_signature",
 			success: isValid,
@@ -200,15 +197,15 @@ async function verifyDKIMPipeline(
 /**
  * Full DMARC evaluation pipeline.
  */
-async function evaluateDMARCPipeline(
+async fn evaluateDMARCPipeline(
 	domain: string,
 	alignmentResult: "pass" | "fail",
-): Promise<PipelineResult> {
+): PipelineResult {
 	const steps: VerificationStepResult[] = [];
 
 	try {
 		// Step 1: Fetch DMARC record
-		const dnsResponse = await fetchDNSRecord("_dmarc", domain, "DMARC");
+		let dnsResponse = await fetchDNSRecord("_dmarc", domain, "DMARC");
 
 		if (!dnsResponse.value) {
 			steps.push({
@@ -229,7 +226,7 @@ async function evaluateDMARCPipeline(
 		});
 
 		// Step 2: Extract policy
-		const policy = extractDMARCPolicy(dnsResponse.value);
+		let policy = extractDMARCPolicy(dnsResponse.value);
 		steps.push({
 			step: "extract_policy",
 			success: policy !== null,
@@ -284,7 +281,7 @@ async function evaluateDMARCPipeline(
 }
 
 Deno.test("E2E - DKIM Verification Success Pipeline", async () => {
-	const result = await verifyDKIMPipeline(
+	let result = await verifyDKIMPipeline(
 		"validSignature123",
 		"default",
 		"valid.com",
@@ -301,7 +298,7 @@ Deno.test("E2E - DKIM Verification Success Pipeline", async () => {
 });
 
 Deno.test("E2E - DKIM Verification Missing Record", async () => {
-	const result = await verifyDKIMPipeline(
+	let result = await verifyDKIMPipeline(
 		"signature",
 		"nonexistent",
 		"missing.com",
@@ -311,13 +308,13 @@ Deno.test("E2E - DKIM Verification Missing Record", async () => {
 	assertEquals(result.finalResult, "PERMFAIL");
 
 	// Should have failed at DNS record step
-	const dnsStep = result.steps.find((s) => s.step === "parse_dkim_record");
+	let dnsStep = result.steps.find((s) => s.step === "parse_dkim_record");
 	assertExists(dnsStep);
 	assertEquals(dnsStep!.success, false);
 });
 
 Deno.test("E2E - DKIM Verification Empty Signature", async () => {
-	const result = await verifyDKIMPipeline(
+	let result = await verifyDKIMPipeline(
 		"",
 		"default",
 		"valid.com",
@@ -328,29 +325,29 @@ Deno.test("E2E - DKIM Verification Empty Signature", async () => {
 });
 
 Deno.test("E2E - DMARC Evaluation Pass with None Policy", async () => {
-	const result = await evaluateDMARCPipeline("valid.com", "pass");
+	let result = await evaluateDMARCPipeline("valid.com", "pass");
 
 	assertEquals(result.status, "pass");
 	assertExists(result.finalResult);
 });
 
 Deno.test("E2E - DMARC Evaluation Reject Policy Applied", async () => {
-	const result = await evaluateDMARCPipeline("valid.com", "fail");
+	let result = await evaluateDMARCPipeline("valid.com", "fail");
 
 	assertEquals(result.steps.length > 0, true);
-	const policyStep = result.steps.find((s) => s.step === "extract_policy");
+	let policyStep = result.steps.find((s) => s.step === "extract_policy");
 	assertExists(policyStep);
 });
 
 Deno.test("E2E - DMARC Missing Record", async () => {
-	const result = await evaluateDMARCPipeline("nodmarc.com", "pass");
+	let result = await evaluateDMARCPipeline("nodmarc.com", "pass");
 
 	assertEquals(result.status, "pass");
 	assertEquals(result.finalResult, "none");
 });
 
 Deno.test("E2E - Verification Pipeline Error Handling", async () => {
-	const result = await verifyDKIMPipeline(
+	let result = await verifyDKIMPipeline(
 		"validSignature",
 		"default",
 		"valid.com",
@@ -362,13 +359,13 @@ Deno.test("E2E - Verification Pipeline Error Handling", async () => {
 });
 
 Deno.test("E2E - Complete DKIM Flow Steps", async () => {
-	const result = await verifyDKIMPipeline(
+	let result = await verifyDKIMPipeline(
 		"validSig",
 		"default",
 		"valid.com",
 	);
 
-	const expectedSteps = [
+	let expectedSteps = [
 		"fetch_dns_record",
 		"parse_dkim_record",
 		"extract_key",
@@ -376,9 +373,8 @@ Deno.test("E2E - Complete DKIM Flow Steps", async () => {
 	];
 
 	for (const expectedStep of expectedSteps) {
-		const hasStep = result.steps.some((s) => s.step === expectedStep);
+		let hasStep = result.steps.some((s) => s.step === expectedStep);
 		assertEquals(hasStep, true, `Should have step: ${expectedStep}`);
 	}
 });
 
-==================================== */

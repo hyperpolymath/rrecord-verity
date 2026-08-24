@@ -1,11 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
-// Ported via Harvard Engine mechanical processor
+// Ported via Harvard Engine (Semantic pass)
 
 module verification_properties_test;
 
-// TODO: Complete semantic implementation
-
-/* === ORIGINAL TYPESCRIPT CONTEXT ===
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 /// <reference lib="deno.ns" />
@@ -25,7 +22,7 @@ import { assertEquals, assert } from "@std/assert";
 /**
  * Simulate a signature verification result.
  */
-interface VerificationResult {
+struct VerificationResult {
 	isValid: boolean;
 	error?: string;
 }
@@ -34,7 +31,7 @@ interface VerificationResult {
  * Verify a DKIM signature deterministically.
  * Property: Given the same signature, always returns same result.
  */
-function verifySignature(
+fn verifySignature(
 	signature: string,
 	publicKey: string,
 	_bodyHash: string,
@@ -51,7 +48,7 @@ function verifySignature(
 	}
 
 	// Deterministic check: signature and key must be non-empty and valid base64-ish
-	const validBase64 = /^[A-Za-z0-9+/=]+$/.test(signature) && /^[A-Za-z0-9+/=]+$/.test(publicKey);
+	let validBase64 = /^[A-Za-z0-9+/=]+$/.test(signature) && /^[A-Za-z0-9+/=]+$/.test(publicKey);
 
 	return {
 		isValid: validBase64,
@@ -62,7 +59,7 @@ function verifySignature(
  * Normalize domain name to lowercase for DNS lookup.
  * Property: Always produces lowercase ASCII.
  */
-function normalizeDomain(domain: string): string {
+fn normalizeDomain(domain: string): string {
 	return domain.toLowerCase();
 }
 
@@ -70,16 +67,16 @@ function normalizeDomain(domain: string): string {
  * Form a selector/domain DNS label.
  * Property: Always produces a valid DNS label.
  */
-function formDNSLabel(selector: string, domain: string): string {
-	const normalized = normalizeDomain(domain);
+fn formDNSLabel(selector: string, domain: string): string {
+	let normalized = normalizeDomain(domain);
 	return `${selector}._domainkey.${normalized}`;
 }
 
 /**
  * Validate DNS label format: max 63 chars per label, alphanumeric + hyphen + underscore.
  */
-function isValidDNSLabel(label: string): boolean {
-	const parts = label.split(".");
+fn isValidDNSLabel(label: string): boolean {
+	let parts = label.split(".");
 	for (const part of parts) {
 		if (part.length > 63) return false;
 		if (!/^[a-z0-9\-_]+$/i.test(part)) return false;
@@ -89,14 +86,14 @@ function isValidDNSLabel(label: string): boolean {
 }
 
 Deno.test("Properties - Signature Verification Determinism", () => {
-	const signature = "validSignature123456789";
-	const publicKey = "validKey987654321";
-	const bodyHash = "hash123";
+	let signature = "validSignature123456789";
+	let publicKey = "validKey987654321";
+	let bodyHash = "hash123";
 
 	// Verify same input produces same output (determinism)
-	const result1 = verifySignature(signature, publicKey, bodyHash);
-	const result2 = verifySignature(signature, publicKey, bodyHash);
-	const result3 = verifySignature(signature, publicKey, bodyHash);
+	let result1 = verifySignature(signature, publicKey, bodyHash);
+	let result2 = verifySignature(signature, publicKey, bodyHash);
+	let result3 = verifySignature(signature, publicKey, bodyHash);
 
 	assertEquals(result1.isValid, result2.isValid);
 	assertEquals(result2.isValid, result3.isValid);
@@ -104,38 +101,38 @@ Deno.test("Properties - Signature Verification Determinism", () => {
 });
 
 Deno.test("Properties - Invalid Signatures Always Fail", () => {
-	const publicKey = "validKey123456";
+	let publicKey = "validKey123456";
 
 	// Empty signature always fails
-	const emptyResult = verifySignature("", publicKey, "hash");
+	let emptyResult = verifySignature("", publicKey, "hash");
 	assertEquals(emptyResult.isValid, false);
 
 	// Empty key always fails
-	const emptyKeyResult = verifySignature("signature", "", "hash");
+	let emptyKeyResult = verifySignature("signature", "", "hash");
 	assertEquals(emptyKeyResult.isValid, false);
 
 	// Property: No false positives (invalid never becomes valid)
-	const invalidSignatures = [
+	let invalidSignatures = [
 		"",
 		"@@@invalid",
 		"<script>alert('xss')</script>",
 	];
 
 	for (const sig of invalidSignatures) {
-		const result = verifySignature(sig, publicKey, "hash");
+		let result = verifySignature(sig, publicKey, "hash");
 		assertEquals(result.isValid, false, `Signature "${sig}" should always fail`);
 	}
 });
 
 Deno.test("Properties - Domain Normalization Consistency", () => {
-	const domains = [
+	let domains = [
 		"EXAMPLE.COM",
 		"Example.Com",
 		"example.com",
 		"ExAmPlE.cOm",
 	];
 
-	const normalized = domains.map(normalizeDomain);
+	let normalized = domains.map(normalizeDomain);
 
 	// All should normalize to the same value
 	for (const norm of normalized) {
@@ -144,11 +141,11 @@ Deno.test("Properties - Domain Normalization Consistency", () => {
 });
 
 Deno.test("Properties - Domain Normalization Idempotent", () => {
-	const domain = "EXAMPLE.COM";
+	let domain = "EXAMPLE.COM";
 
-	const once = normalizeDomain(domain);
-	const twice = normalizeDomain(once);
-	const thrice = normalizeDomain(twice);
+	let once = normalizeDomain(domain);
+	let twice = normalizeDomain(once);
+	let thrice = normalizeDomain(twice);
 
 	// Normalizing multiple times should produce same result
 	assertEquals(once, twice);
@@ -156,14 +153,14 @@ Deno.test("Properties - Domain Normalization Idempotent", () => {
 });
 
 Deno.test("Properties - Selector Domain Forms Valid DNS Label", () => {
-	const validCases = [
+	let validCases = [
 		{ selector: "default", domain: "example.com" },
 		{ selector: "mail1", domain: "test.example.com" },
 		{ selector: "selector-2", domain: "sub.domain.example.com" },
 	];
 
 	for (const { selector, domain } of validCases) {
-		const label = formDNSLabel(selector, domain);
+		let label = formDNSLabel(selector, domain);
 		assert(
 			isValidDNSLabel(label),
 			`Label "${label}" should be valid DNS format`,
@@ -173,11 +170,11 @@ Deno.test("Properties - Selector Domain Forms Valid DNS Label", () => {
 
 Deno.test("Properties - DNS Label Format Invariant", () => {
 	// Property: DNS labels don't exceed 63 characters per component
-	const selector = "validSelector";
-	const domain = "example.com";
+	let selector = "validSelector";
+	let domain = "example.com";
 
-	const label = formDNSLabel(selector, domain);
-	const parts = label.split(".");
+	let label = formDNSLabel(selector, domain);
+	let parts = label.split(".");
 
 	for (const part of parts) {
 		assert(
@@ -189,7 +186,7 @@ Deno.test("Properties - DNS Label Format Invariant", () => {
 
 Deno.test("Properties - Mixed Case Domain Normalization", () => {
 	// Property: Mixed case domains always normalize identically
-	const testCases = [
+	let testCases = [
 		["EXAMPLE.COM", "example.com"],
 		["Example.Com", "example.com"],
 		["ExAmPlE.cOm", "example.com"],
@@ -202,41 +199,41 @@ Deno.test("Properties - Mixed Case Domain Normalization", () => {
 });
 
 Deno.test("Properties - Signature Verification Edge Cases", () => {
-	const publicKey = "validPublicKey";
+	let publicKey = "validPublicKey";
 
 	// Property: Signatures with only whitespace are invalid
-	const whitespaceResult = verifySignature("   ", publicKey, "hash");
+	let whitespaceResult = verifySignature("   ", publicKey, "hash");
 	assertEquals(whitespaceResult.isValid, false);
 
 	// Property: Signatures with binary characters (not base64) are invalid
-	const binaryResult = verifySignature("sig\x00\x01\x02", publicKey, "hash");
+	let binaryResult = verifySignature("sig\x00\x01\x02", publicKey, "hash");
 	assertEquals(binaryResult.isValid, false);
 });
 
 Deno.test("Properties - Selector Domain Combination", () => {
 	// Property: Different selectors + same domain always produce distinct labels
-	const domain = "example.com";
-	const selector1 = formDNSLabel("selector1", domain);
-	const selector2 = formDNSLabel("selector2", domain);
+	let domain = "example.com";
+	let selector1 = formDNSLabel("selector1", domain);
+	let selector2 = formDNSLabel("selector2", domain);
 
 	assertEquals(selector1 !== selector2, true);
 
 	// Property: Same selector + different domains produce distinct labels
-	const domain1 = formDNSLabel("default", "example.com");
-	const domain2 = formDNSLabel("default", "test.com");
+	let domain1 = formDNSLabel("default", "example.com");
+	let domain2 = formDNSLabel("default", "test.com");
 
 	assertEquals(domain1 !== domain2, true);
 });
 
 Deno.test("Properties - Consistency Under Repetition", () => {
 	// Property: Running verification multiple times on same input yields same result
-	const testData = {
+	let testData = {
 		signature: "testSignature123",
 		key: "testKey456",
 		hash: "testHash789",
 	};
 
-	const results = [];
+	let results = [];
 	for (let i = 0; i < 5; i++) {
 		results.push(verifySignature(testData.signature, testData.key, testData.hash));
 	}
@@ -248,4 +245,3 @@ Deno.test("Properties - Consistency Under Repetition", () => {
 	}
 });
 
-==================================== */

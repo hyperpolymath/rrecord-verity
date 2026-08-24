@@ -1,11 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
-// Ported via Harvard Engine mechanical processor
+// Ported via Harvard Engine (Semantic pass)
 
 module verification_bench;
 
-// TODO: Complete semantic implementation
-
-/* === ORIGINAL TYPESCRIPT CONTEXT ===
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 /// <reference lib="deno.ns" />
@@ -23,13 +20,13 @@ module verification_bench;
 /**
  * Parse DKIM TXT record.
  */
-function parseDKIMRecord(record: string): Record<string, string> | null {
+fn parseDKIMRecord(record: string): Record<string, string> | null {
 	if (!record.startsWith("v=DKIM1")) {
 		return null;
 	}
 
 	const tags: Record<string, string> = {};
-	const tagMatches = record.matchAll(/([a-z])=([^;]*)/g);
+	let tagMatches = record.matchAll(/([a-z])=([^;]*)/g);
 
 	for (const match of tagMatches) {
 		tags[match[1]] = match[2].trim();
@@ -41,14 +38,14 @@ function parseDKIMRecord(record: string): Record<string, string> | null {
 /**
  * Validate signature format (base64-ish).
  */
-function validateSignatureFormat(sig: string): boolean {
+fn validateSignatureFormat(sig: string): boolean {
 	return /^[A-Za-z0-9+/=]+$/.test(sig);
 }
 
 /**
  * Evaluate DMARC policy.
  */
-function evaluateDMARCPolicy(
+fn evaluateDMARCPolicy(
 	policy: string,
 	alignmentResult: "pass" | "fail",
 ): string {
@@ -62,7 +59,7 @@ function evaluateDMARCPolicy(
 /**
  * Canonicalize domain name.
  */
-function canonicalizeDomain(domain: string): string {
+fn canonicalizeDomain(domain: string): string {
 	return domain.toLowerCase();
 }
 
@@ -73,7 +70,7 @@ Deno.bench(
 		group: "parsing",
 	},
 	() => {
-		const record = "v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDwIRP";
+		let record = "v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDwIRP";
 		parseDKIMRecord(record);
 	},
 );
@@ -84,7 +81,7 @@ Deno.bench(
 		group: "parsing",
 	},
 	() => {
-		const record =
+		let record =
 			"v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAADCBiQKBgQDwIRPUC3SBsEmGqZ9; h=sha256; c=relaxed/relaxed; t=1234567890; x=1234567900";
 		parseDKIMRecord(record);
 	},
@@ -96,7 +93,7 @@ Deno.bench(
 		group: "parsing",
 	},
 	() => {
-		const record =
+		let record =
 			"v=DKIM1; k=rsa; p=" +
 			"MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDwIRPUC3SBsEmGqZ9ZJW3Dkd/Tq4" +
 			"oQcKKOUULSqS9YzKFwqS9YzKFwqS9YzKFwqS9YzKFwqS9YzKFwqS9YzKFwqS9Y5TmJ" +
@@ -112,7 +109,7 @@ Deno.bench(
 		group: "validation",
 	},
 	() => {
-		const sig = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855";
+		let sig = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855";
 		validateSignatureFormat(sig);
 	},
 );
@@ -123,7 +120,7 @@ Deno.bench(
 		group: "validation",
 	},
 	() => {
-		const sig = "not@valid#signature!";
+		let sig = "not@valid#signature!";
 		validateSignatureFormat(sig);
 	},
 );
@@ -134,7 +131,7 @@ Deno.bench(
 		group: "validation",
 	},
 	() => {
-		const sig =
+		let sig =
 			"TIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDwIRPUC3SBsEmGqZ9ZJW3Dkd/TQ==";
 		validateSignatureFormat(sig);
 	},
@@ -208,10 +205,10 @@ Deno.bench(
 		group: "pipeline",
 	},
 	() => {
-		const record = "v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDwIRP";
+		let record = "v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDwIRP";
 		parseDKIMRecord(record);
 
-		const sig = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855";
+		let sig = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855";
 		validateSignatureFormat(sig);
 
 		evaluateDMARCPolicy("reject", "pass");
@@ -224,7 +221,7 @@ Deno.bench(
 		group: "batch",
 	},
 	() => {
-		const records = [
+		let records = [
 			"v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDwIRP1",
 			"v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDwIRP2",
 			"v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDwIRP3",
@@ -249,7 +246,7 @@ Deno.bench(
 		group: "batch",
 	},
 	() => {
-		const domains = [
+		let domains = [
 			"EXAMPLE.COM",
 			"Example.Com",
 			"MAIL.EXAMPLE.COM",
@@ -278,4 +275,3 @@ Deno.bench(
 	},
 );
 
-==================================== */

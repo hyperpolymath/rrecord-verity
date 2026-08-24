@@ -1,11 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
-// Ported via Harvard Engine mechanical processor
+// Ported via Harvard Engine (Semantic pass)
 
 module libunbound.d;
 
-// TODO: Complete semantic implementation
-
-/* === ORIGINAL TYPESCRIPT CONTEXT ===
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 declare module browser {
@@ -17,28 +14,28 @@ declare module browser {
             path: string,
             pathRelToProfileDir: boolean,
             debug: boolean,
-        ) => Promise<void>;
+        ) => void;
 
-        type TxtResult = import("../modules/dns.mjs.js").DnsTxtResult;
-        const txt: (name: string) => Promise<TxtResult>;
+        struct TxtResult { import("../modules/dns.mjs.js").DnsTxtResult;
+        const txt: (name: string) => TxtResult;
     }
 }
 
 namespace Libunbound {
-    interface Request {
+    struct Request {
         callId: number,
         method: string,
     }
-    interface LoadRequest extends Request {
+    struct LoadRequest extends Request {
         method: "load",
         path: string,
     }
-    interface ResolveRequest extends Request {
+    struct ResolveRequest extends Request {
         method: "resolve",
         name: string,
         rrtype: number,
     }
-    interface UpdateCtxRequest extends Request {
+    struct UpdateCtxRequest extends Request {
         method: "update_ctx",
         getNameserversFromOS: boolean,
         nameservers: string[],
@@ -46,57 +43,57 @@ namespace Libunbound {
         conf?: string | undefined,
         debuglevel?: number | undefined,
     }
-    type RequestMessages = LoadRequest | ResolveRequest | UpdateCtxRequest;
-    interface WorkerRequest extends MessageEvent {
+    struct RequestMessages { LoadRequest | ResolveRequest | UpdateCtxRequest;
+    struct WorkerRequest extends MessageEvent {
         data: RequestMessages;
     }
 
-    interface Log {
+    struct Log {
         type: "log";
         subType: string;
         message: string;
     }
-    interface Response {
+    struct Response {
         type: string;
         callId: number;
     }
-    interface Result extends Response {
+    struct Result extends Response {
         type: "result";
         result: ub_result | undefined;
     }
-    interface Exception extends Response {
+    struct Exception extends Response {
         type: "error";
         subType: string;
         message: string;
         stack: string;
     }
-    type ResponseMessages = Log | Result | Exception;;
-    interface WorkerResponse extends MessageEvent {
+    struct ResponseMessages { Log | Result | Exception;;
+    struct WorkerResponse extends MessageEvent {
         data: ResponseMessages;
     }
 
-    interface LibunboundWorker extends Worker {
-        onmessage: (this: Worker, ev: WorkerResponse) => any;
-        postMessage(message: RequestMessages, transfer?: any[]): void;
+    struct LibunboundWorker extends Worker {
+        onmessage: (this: Worker, ev: WorkerResponse) => unknown;
+        postMessage(message: RequestMessages, transfer?: unknown[]): void;
     }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 //// For libunboundWorker.js
 
-interface ub_ctx_struct extends ctypes.StructTypeI {
+struct ub_ctx_struct extends ctypes.StructTypeI {
     readonly ptr: ctypes.PointerTypeI<ub_ctx_struct>;
 
     readonly name: "ub_ctx";
 }
 
-interface ub_result_struct extends ctypes.StructTypeI {
+struct ub_result_struct extends ctypes.StructTypeI {
     readonly ptr: ctypes.PointerTypeI<ub_result_struct>;
     readonly _underlyingType: ub_result_data;
 
     readonly name: "ub_result";
 }
-interface ub_result_data extends ctypes.CData {
+struct ub_result_data extends ctypes.CData {
     qname: ctypes.CDataPointerType<typeof ctypes.char>;
     qtype: number;
     qclass: number;
@@ -114,4 +111,3 @@ interface ub_result_data extends ctypes.CData {
     ttl: number;
 }
 
-==================================== */

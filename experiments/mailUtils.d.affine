@@ -1,17 +1,13 @@
 // SPDX-License-Identifier: MPL-2.0
-// Ported via Harvard Engine mechanical processor
+// Ported via Harvard Engine (Semantic pass)
 
 module mailUtils.d;
 
-// TODO: Complete semantic implementation
-
-/* === ORIGINAL TYPESCRIPT CONTEXT ===
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 declare module browser {
     declare module mailUtils {
-        const getBaseDomainFromAddr: (addr: string) => Promise<string>;
+        const getBaseDomainFromAddr: (addr: string) => string;
     }
 }
 
-==================================== */

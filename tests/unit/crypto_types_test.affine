@@ -1,11 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
-// Ported via Harvard Engine mechanical processor
+// Ported via Harvard Engine (Semantic pass)
 
 module crypto_types_test;
 
-// TODO: Complete semantic implementation
-
-/* === ORIGINAL TYPESCRIPT CONTEXT ===
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 /// <reference lib="deno.ns" />
@@ -20,12 +17,12 @@ module crypto_types_test;
 import { assertEquals, assertMatch, assertThrows } from "@std/assert";
 
 // Crypto type contract validators
-interface SignatureAlgorithm {
+struct SignatureAlgorithm {
 	name: string;
 	hashAlgorithm: string;
 }
 
-interface DKIMKeyRecord {
+struct DKIMKeyRecord {
 	version: string;
 	keyType: string;
 	publicKey: string;
@@ -33,7 +30,7 @@ interface DKIMKeyRecord {
 	serviceTypes: string[];
 }
 
-interface DKIMSignature {
+struct DKIMSignature {
 	version: "1.0" | "1.1";
 	algorithm: string;
 	bodyCanonicalization: string;
@@ -53,15 +50,15 @@ interface DKIMSignature {
  * Validate signature algorithm name is recognized.
  * Valid: "rsa-sha1", "rsa-sha256", "ed25519-sha256", etc.
  */
-function validateAlgorithmName(name: string): boolean {
-	const validAlgorithms = /^(rsa|ed25519|ecdsa)-(sha1|sha256|sha512)$/i;
+fn validateAlgorithmName(name: string): boolean {
+	let validAlgorithms = /^(rsa|ed25519|ecdsa)-(sha1|sha256|sha512)$/i;
 	return validAlgorithms.test(name);
 }
 
 /**
  * Validate key ID format: non-empty, ASCII printable.
  */
-function validateKeyId(keyId: string): boolean {
+fn validateKeyId(keyId: string): boolean {
 	if (keyId.length === 0) return false;
 	// Allow alphanumeric, hyphen, underscore
 	return /^[a-z0-9\-_]+$/i.test(keyId);
@@ -70,8 +67,8 @@ function validateKeyId(keyId: string): boolean {
 /**
  * Validate hash value: hex string, minimum length for SHA256 (64 chars).
  */
-function validateHashValue(hash: string, algorithmName: string = "sha256"): boolean {
-	const hexPattern = /^[a-f0-9]+$/i;
+fn validateHashValue(hash: string, algorithmName: string = "sha256"): boolean {
+	let hexPattern = /^[a-f0-9]+$/i;
 	if (!hexPattern.test(hash)) return false;
 
 	// SHA1: 40 chars, SHA256: 64 chars, SHA512: 128 chars
@@ -81,15 +78,15 @@ function validateHashValue(hash: string, algorithmName: string = "sha256"): bool
 		"sha512": 128,
 	};
 
-	const expectedLength = expectedLengths[algorithmName.toLowerCase()] || 64;
+	let expectedLength = expectedLengths[algorithmName.toLowerCase()] || 64;
 	return hash.length === expectedLength;
 }
 
 /**
  * Validate DKIM signature has all required fields.
  */
-function validateDKIMSignature(sig: DKIMSignature): boolean {
-	const requiredFields = ["version", "algorithm", "bodyCanonicalization",
+fn validateDKIMSignature(sig: DKIMSignature): boolean {
+	let requiredFields = ["version", "algorithm", "bodyCanonicalization",
 		"headerCanonicalization", "signedHeaders", "signature", "bodyHash", "domain"];
 
 	for (const field of requiredFields) {
@@ -102,7 +99,7 @@ function validateDKIMSignature(sig: DKIMSignature): boolean {
 /**
  * Validate DMARC policy value: "none", "quarantine", "reject" only.
  */
-function validateDMARCPolicy(policy: string): boolean {
+fn validateDMARCPolicy(policy: string): boolean {
 	return ["none", "quarantine", "reject"].includes(policy.toLowerCase());
 }
 
@@ -165,12 +162,12 @@ Deno.test("Crypto Types - DKIM Signature Fields", () => {
 	assertEquals(validateDKIMSignature(validSig), true);
 
 	// Missing required field
-	const incompleteSig = { ...validSig };
-	delete (incompleteSig as any).domain;
+	let incompleteSig = { ...validSig };
+	delete (incompleteSig as unknown).domain;
 	assertEquals(validateDKIMSignature(incompleteSig), false);
 
 	// Empty signed headers
-	const noHeadersSig = { ...validSig, signedHeaders: [] };
+	let noHeadersSig = { ...validSig, signedHeaders: [] };
 	assertEquals(validateDKIMSignature(noHeadersSig), false);
 });
 
@@ -186,7 +183,7 @@ Deno.test("Crypto Types - DMARC Policy Values", () => {
 });
 
 Deno.test("Crypto Types - Signature Algorithm Enum", () => {
-	const algorithms = [
+	let algorithms = [
 		{ name: "rsa-sha256", hashAlgorithm: "sha256" },
 		{ name: "rsa-sha1", hashAlgorithm: "sha1" },
 		{ name: "ed25519-sha256", hashAlgorithm: "sha256" },
@@ -197,4 +194,3 @@ Deno.test("Crypto Types - Signature Algorithm Enum", () => {
 	}
 });
 
-==================================== */

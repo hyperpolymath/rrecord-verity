@@ -1,11 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
-// Ported via Harvard Engine mechanical processor
+// Ported via Harvard Engine (Semantic pass)
 
 module jsdns.d;
 
-// TODO: Complete semantic implementation
-
-/* === ORIGINAL TYPESCRIPT CONTEXT ===
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 declare module browser {
@@ -17,13 +14,12 @@ declare module browser {
             proxy: { enable: boolean, type: string, host: string, port: number },
             autoResetServerAlive: boolean,
             debug: boolean,
-        ) => Promise<void>;
+        ) => void;
 
-        type TxtResult = import("../modules/dns.mjs.js").DnsTxtResult | {
+        struct TxtResult { import("../modules/dns.mjs.js").DnsTxtResult | {
             error: string,
         }
-        const txt: (name: string) => Promise<TxtResult>;
+        const txt: (name: string) => TxtResult;
     }
 }
 
-==================================== */

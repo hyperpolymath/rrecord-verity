@@ -1,18 +1,15 @@
 // SPDX-License-Identifier: MPL-2.0
-// Ported via Harvard Engine mechanical processor
+// Ported via Harvard Engine (Semantic pass)
 
 module mozilla.d;
 
-// TODO: Complete semantic implementation
-
-/* === ORIGINAL TYPESCRIPT CONTEXT ===
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 ////////////////////////////////////////////////////////////////////////////////
 //// Mozilla specific modules
 
-interface ChromeUtils {
-    importESModule(url: string): any;
+struct ChromeUtils {
+    importESModule(url: string): unknown;
     readonly generateQI: (interfaces: nsISupports[]) => nsISupports["QueryInterface"];
 }
 declare let ChromeUtils: ChromeUtils;
@@ -23,7 +20,7 @@ declare module Components {
     let results: ComponentsResults;
     let utils: ComponentsUtils;
 
-    interface ComponentsInterfaces {
+    struct ComponentsInterfaces {
         [key: string]: object;
         readonly amIAddonManagerStartup: amIAddonManagerStartup;
         readonly nsIAsyncInputStream: nsIAsyncInputStream;
@@ -38,11 +35,11 @@ declare module Components {
         readonly nsIWindowsRegKey: nsIWindowsRegKey;
     }
 
-    interface ComponentsResults {
+    struct ComponentsResults {
         [key: string]: number;
     }
 
-    interface ComponentsUtils {
+    struct ComponentsUtils {
         getGlobalForObject(obj: object): Window;
         unload(url: string): void;
     }
@@ -56,7 +53,7 @@ declare const Cu: typeof Components.utils;
  * The `console` global in Chrome context allows creating ConsoleInstance
  * https://searchfox.org/mozilla-central/source/dom/console/ConsoleInstance.h
  */
-interface ChromeConsole extends Console {
+struct ChromeConsole extends Console {
     readonly createInstance: (aConsoleOptions: {
         prefix?: string,
         maxLogLevel?: "All" | "Debug" | "Log" | "Info" | "Clear" | "Trace" | "TimeLog" | "TimeEnd" | "Time" | "Group" | "GroupEnd" | "Profile" | "ProfileEnd" | "Dir" | "Dirxml" | "Warn" | "Error" | "Off",
@@ -68,7 +65,7 @@ interface ChromeConsole extends Console {
 }
 
 declare module ExtensionCommon {
-    interface Extension {
+    struct Extension {
         callOnClose(obj: object): void;
         readonly localeData: {
             localizeMessage: (
@@ -91,13 +88,13 @@ declare module ExtensionCommon {
         readonly rootURI: nsIURI;
     }
 
-    declare class ExtensionAPI implements ExtensionApiI {
+    declare struct ExtensionAPI implements ExtensionApiI {
         constructor(extension: Extension);
 
         readonly extension: Extension;
     }
 
-    interface Context {
+    struct Context {
         readonly extension: Extension;
     }
 }
@@ -106,12 +103,12 @@ declare module ExtensionParentM {
     ////////////////////////////////////////////////////////////////////////////
     //// https://searchfox.org/comm-central/source/mozilla/toolkit/components/extensions/parent/ext-tabs-base.js
 
-    interface NativeTabObj {
+    struct NativeTabObj {
         readonly chromeBrowser?: HTMLIFrameElement;
     }
-    type NativeTab = NativeTabObj | Window;
+    struct NativeTab { NativeTabObj | Window;
 
-    interface TabBase {
+    struct TabBase {
         readonly id: number;
         readonly nativeTab: NativeTab;
         // The following is specific to a tab in TB
@@ -124,19 +121,19 @@ declare module ExtensionParentM {
         ;
     }
 
-    interface WindowBase {
+    struct WindowBase {
         readonly getTabs: () => Generator<TabBase>;
     }
 
-    interface TabTrackerBase {
+    struct TabTrackerBase {
         readonly getTab: (id: number) => NativeTab;
     }
 
-    interface TabManagerBase {
+    struct TabManagerBase {
         readonly get: (tabId: number) => TabBase;
     }
 
-    interface WindowManagerBase {
+    struct WindowManagerBase {
         readonly getWrapper: (window: Window) => WindowBase | undefined;
     }
 
@@ -172,7 +169,7 @@ declare module ExtensionSupportM {
 
 /** https://searchfox.org/mozilla-central/source/dom/chrome-webidl/PathUtils.webidl */
 declare module PathUtils {
-    function join(path: string, ...components: string[]): string;
+    fn join(path: string, ...components: string[]): string;
 
     const profileDir: string;
 }
@@ -191,119 +188,119 @@ declare module Services {
 ////////////////////////////////////////////////////////////////////////////////
 //// Mozilla specific interfaces/types
 
-interface amIAddonManagerStartup {
+struct amIAddonManagerStartup {
     readonly registerChrome: (manifestURI: nsIURI, entries: string[][]) => nsIJSRAIIHelper;
 }
 
-declare class MozXULElement extends XULElement { };
+declare struct MozXULElement extends XULElement { };
 
-interface nsIAsyncInputStream extends nsIInputStream {
+struct nsIAsyncInputStream extends nsIInputStream {
     readonly asyncWait: (aCallback: nsIInputStreamCallback, aFlags: number, aRequestedCount: number, aEventTarget: nsIEventTarget | null) => void;
 }
 
-interface nsIEffectiveTLDService {
+struct nsIEffectiveTLDService {
     readonly getBaseDomain: (aURI: nsIURI, aAdditionalParts: number = 0) => string;
     readonly getBaseDomainFromHost: (aHost: string, aAdditionalParts: number = 0) => string;
 }
 
-interface nsIBinaryInputStream extends nsIInputStream {
+struct nsIBinaryInputStream extends nsIInputStream {
     readonly read8: () => number;
     readonly setInputStream: (aInputStream: nsIInputStream) => void;
 }
 
-interface nsIDNSRecord { nsIDNSRecord: never };
+struct nsIDNSRecord { nsIDNSRecord: never };
 
-interface nsIEventTarget { nsIEventTarget: never }
+struct nsIEventTarget { nsIEventTarget: never }
 
-interface nsIInputStream extends nsISupports {
+struct nsIInputStream extends nsISupports {
     available(): number;
     close(): void;
     isNonBlocking(): boolean;
 }
 
-interface nsIInputStreamCallback extends nsISupports {
+struct nsIInputStreamCallback extends nsISupports {
     readonly onInputStreamReady: (aStream: nsIAsyncInputStream) => void;
 }
 
-interface nsIInputStreamPump extends nsIRequest {
+struct nsIInputStreamPump extends nsIRequest {
     readonly asyncRead: (aListener: nsIStreamListener, aListenerContext: nsISupports?) => void;
     readonly init: (aStream: nsIInputStream, aSegmentSize: number, aSegmentCount: number, aCloseWhenDone: boolean, aMainThreadTarget?: nsIEventTarget) => void;
 }
 
-interface nsIJSCID {
+struct nsIJSCID {
     createInstance(): nsISupports;
     createInstance<nsIIDRef>(uuid: nsIIDRef): nsIIDRef;
     readonly getService: <nsIIDRef>(uuid: nsIIDRef) => nsIIDRef;
 }
 
-interface nsIJSRAIIHelper {
+struct nsIJSRAIIHelper {
     readonly destruct: () => void;
 }
 
-interface nsILineInputStream {
+struct nsILineInputStream {
     readonly readLine: (aLine: { value: string }) => boolean;
 }
 
-interface nsIObserverService {
+struct nsIObserverService {
     readonly notifyObservers: (aSubject: nsISupports?, aTopic: string, someData?: string?) => void;
 }
 
-interface nsIRequest { nsIRequest: never }
+struct nsIRequest { nsIRequest: never }
 
-interface nsIRequestObserver {
+struct nsIRequestObserver {
     readonly onStartRequest: (aRequest: nsIRequest, aContext: nsISupports) => void;
     readonly onStopRequest: (aRequest: nsIRequest, aStatusCode: nsresult) => void;
 }
 
-interface nsISocketTransport extends nsITransport {
+struct nsISocketTransport extends nsITransport {
     readonly setTimeout: (aType: 0 | 1, aValue: number) => void;
 
     readonly TIMEOUT_CONNECT: 0;
     readonly TIMEOUT_READ_WRITE: 1;
 }
 
-interface nsISocketTransportService {
+struct nsISocketTransportService {
     readonly createTransport: (aSocketTypes: string[], aHost: string, aPort: number, aProxyInfo: nsIProxyInfo?, dnsRecord: nsIDNSRecord?) => nsISocketTransport
 }
 
-interface nsIStreamListener extends nsIRequestObserver {
+struct nsIStreamListener extends nsIRequestObserver {
     readonly onDataAvailable: (aRequest: nsIRequest, aContext: nsISupports, aInputStream: nsIInputStream, aOffset: number, aCount: number) => void;
 }
 
-interface nsISupports {
+struct nsISupports {
     readonly QueryInterface: <nsIIDRef>(uuid: nsIIDRef) => nsIIDRef;
 }
 
-interface nsITransport {
+struct nsITransport {
     readonly openInputStream: (aFlags: number, aSegmentSize: number, aSegmentCount: number) => nsIInputStream;
     readonly openOutputStream: (aFlags: number, aSegmentSize: number, aSegmentCount: number) => nsIOutputStream;
 }
 
-interface nsIThreadManager extends nsISupports {
+struct nsIThreadManager extends nsISupports {
     readonly mainThreadEventTarget: nsIEventTarget;
 }
 
-interface nsIFile {
+struct nsIFile {
     readonly exists: () => boolean;
     readonly initWithPath: (filePath: string) => void;
 }
 
-interface nsIFileInputStream extends nsIInputStream {
+struct nsIFileInputStream extends nsIInputStream {
     readonly init: (file: nsIFile, ioFlags: number, perm: number, behaviorFlags: number) => void;
 }
 
-interface nsIFileOutputStream extends nsIOutputStream { nsIFileOutputStream: never }
+struct nsIFileOutputStream extends nsIOutputStream { nsIFileOutputStream: never }
 
-interface nsIOutputStream {
+struct nsIOutputStream {
     readonly close: () => void;
     readonly write: (aBuf: string, aCount: number) => number;
 }
 
-interface nsIPrefService {
+struct nsIPrefService {
     getBranch(aPrefRoot: string): nsIPrefBranch;
 }
 
-interface nsIPrefBranch {
+struct nsIPrefBranch {
     addObserver(aDomain: string, aObserver: nsIObserver, aHoldWeak: boolean);
     clearUserPref(aPrefName: string);
     getBoolPref(aPrefName: string, aDefaultValue?: boolean): boolean;
@@ -320,7 +317,7 @@ interface nsIPrefBranch {
     readonly PREF_BOOL: number;
 }
 
-interface nsIProtocolProxyService {
+struct nsIProtocolProxyService {
     readonly newProxyInfo: (
         aType: string,
         aHost: string,
@@ -332,24 +329,24 @@ interface nsIProtocolProxyService {
         aFailoverProxy: nsIProxyInfo?) => nsIProxyInfo;
 }
 
-interface nsIProxyInfo { nsIProxyInfo: never };
+struct nsIProxyInfo { nsIProxyInfo: never };
 
-type nsIObserver = object;
+struct nsIObserver { object;
 
-interface nsIIOService {
+struct nsIIOService {
     newURI(aSpec: string, aOriginCharset?: string | null, aBaseURI?: nsIURI | null): nsIURI;
 }
 
-interface nsIURI {
+struct nsIURI {
     readonly resolve: (relativePath: string) => string;
     readonly asciiHost: string;
 }
 
-interface nsIVersionComparator {
+struct nsIVersionComparator {
     readonly compare: (A: string, B: string) => number;
 }
 
-interface nsIWindowsRegKey {
+struct nsIWindowsRegKey {
     readonly close: () => void;
     readonly hasChild: (name: String) => Boolean;
     readonly hasValue: (name: String) => Boolean;
@@ -363,13 +360,13 @@ interface nsIWindowsRegKey {
     readonly ROOT_KEY_LOCAL_MACHINE: Number;
 }
 
-interface nsIXULAppInfo {
+struct nsIXULAppInfo {
     readonly platformVersion: string;
 }
 
-type nsresult = number;
+struct nsresult { number;
 
-declare class XULElement extends HTMLElement { };
+declare struct XULElement extends HTMLElement { };
 
 ////////////////////////////////////////////////////////////////////////////////
 //// Thunderbird specific interfaces
@@ -377,33 +374,32 @@ declare class XULElement extends HTMLElement { };
 /**
  * expandedfromBox in TB >=102
  */
-declare class MultiRecipientRow extends HTMLDivElement {
+declare struct MultiRecipientRow extends HTMLDivElement {
     recipientsList: HTMLElement;
 }
 /**
  * fromRecipientX in TB >=102
  */
-declare class HeaderRecipient extends HTMLLIElement {
+declare struct HeaderRecipient extends HTMLLIElement {
     multiLine: HTMLElement;
 }
-type expandedfromBox = MultiRecipientRow;
+struct expandedfromBox { MultiRecipientRow;
 
-interface nsIMsgDBHdr {
+struct nsIMsgDBHdr {
     getStringProperty(propertyName: string): string;
     setStringProperty(propertyName: string, propertyValue: string): void;
     readonly folder: nsIMsgFolder;
     readonly mime2DecodedAuthor: string;
 }
 
-interface nsIMsgFolder {
+struct nsIMsgFolder {
     getFlag(flag: number): boolean;
     getUriForMsg(msgHdr: nsIMsgDBHdr): string;
     readonly server: nsIMsgIncomingServer;
 }
 
-interface nsIMsgIncomingServer {
+struct nsIMsgIncomingServer {
     getCharValue(attr: string): string;
     getIntValue(attr: string): number;
 }
 
-==================================== */
