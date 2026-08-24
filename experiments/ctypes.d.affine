@@ -1,4 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
+// Ported via Harvard Engine mechanical processor
+
+module ctypes.d;
+
+// TODO: Complete semantic implementation
+
+/* === ORIGINAL TYPESCRIPT CONTEXT ===
+// SPDX-License-Identifier: MPL-2.0
 // Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 // https://developer.mozilla.org/en-US/docs/Mozilla/js-ctypes
 declare module ctypes {
@@ -149,3 +157,5 @@ declare module ctypes {
     const stdcall_abi: ABI;
     const winapi_abi: ABI;
 }
+
+==================================== */

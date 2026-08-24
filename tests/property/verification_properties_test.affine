@@ -1,4 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
+// Ported via Harvard Engine mechanical processor
+
+module verification_properties_test;
+
+// TODO: Complete semantic implementation
+
+/* === ORIGINAL TYPESCRIPT CONTEXT ===
+// SPDX-License-Identifier: MPL-2.0
 // Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 /// <reference lib="deno.ns" />
 
@@ -239,3 +247,5 @@ Deno.test("Properties - Consistency Under Repetition", () => {
 		assertEquals(results[i].error, results[0].error);
 	}
 });
+
+==================================== */

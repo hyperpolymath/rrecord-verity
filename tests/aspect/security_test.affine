@@ -1,4 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
+// Ported via Harvard Engine mechanical processor
+
+module security_test;
+
+// TODO: Complete semantic implementation
+
+/* === ORIGINAL TYPESCRIPT CONTEXT ===
+// SPDX-License-Identifier: MPL-2.0
 // Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 /// <reference lib="deno.ns" />
 
@@ -271,3 +279,5 @@ Deno.test("Security - Oversized Record Handling Graceful", () => {
 	// Should not crash, just return false
 	assertEquals(isRecordSizeValid(hugeRecord), false);
 });
+
+==================================== */

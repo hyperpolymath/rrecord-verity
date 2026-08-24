@@ -1,4 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
+// Ported via Harvard Engine mechanical processor
+
+module WebExtensions.d;
+
+// TODO: Complete semantic implementation
+
+/* === ORIGINAL TYPESCRIPT CONTEXT ===
+// SPDX-License-Identifier: MPL-2.0
 // Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 declare module browser {
     declare module accounts {
@@ -6,3 +14,5 @@ declare module browser {
         var get: (accountId: string) => Promise<MailAccount?>;
     }
 }
+
+==================================== */

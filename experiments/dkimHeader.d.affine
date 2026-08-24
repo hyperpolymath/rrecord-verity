@@ -1,4 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
+// Ported via Harvard Engine mechanical processor
+
+module dkimHeader.d;
+
+// TODO: Complete semantic implementation
+
+/* === ORIGINAL TYPESCRIPT CONTEXT ===
+// SPDX-License-Identifier: MPL-2.0
 // Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 interface DKIMTooltipElement extends HTMLElement {
     _target: DKIMTooltipTarget | void
@@ -51,3 +59,5 @@ declare module browser {
         const reset: (tabId: number, messageId: number) => Promise<boolean>;
     }
 }
+
+==================================== */

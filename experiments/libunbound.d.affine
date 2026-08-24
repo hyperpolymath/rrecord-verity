@@ -1,4 +1,12 @@
 // SPDX-License-Identifier: MPL-2.0
+// Ported via Harvard Engine mechanical processor
+
+module libunbound.d;
+
+// TODO: Complete semantic implementation
+
+/* === ORIGINAL TYPESCRIPT CONTEXT ===
+// SPDX-License-Identifier: MPL-2.0
 // Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 declare module browser {
     declare module libunbound {
@@ -105,3 +113,5 @@ interface ub_result_data extends ctypes.CData {
     why_bogus: ctypes.CDataPointerType<typeof ctypes.char>;
     ttl: number;
 }
+
+==================================== */
