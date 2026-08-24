@@ -1,0 +1,20 @@
+== ⚠️ Large Codebase - Manual Review Required
+
+This repository has substantial TS/JS code (>5000 lines).
+
+=== Challenges
+
+* Large codebase requires careful migration planning
+* May have complex type dependencies
+* Third-party libraries may need bindings
+
+=== Recommended Approach
+
+[arabic]
+. *Audit*: Catalog all TS/JS files and dependencies
+. *Prioritize*: Identify core vs peripheral code
+. *Incremental*: Convert module by module
+. *Test*: Ensure each converted module works
+. *WASM*: Consider for heavy computation sections
+
+=== Do NOT attempt automated bulk conversion.
