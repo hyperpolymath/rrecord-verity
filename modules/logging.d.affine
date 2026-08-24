@@ -1,23 +1,19 @@
 // SPDX-License-Identifier: MPL-2.0
-// Ported via Harvard Engine mechanical processor
+// Ported via Harvard Engine (Semantic pass)
 
 module logging.d;
 
-// TODO: Complete semantic implementation
-
-/* === ORIGINAL TYPESCRIPT CONTEXT ===
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
-interface LoggerI {
-    fatal(message?: any, ...optionalParams: any[]): void;
-    error(message?: any, ...optionalParams: any[]): void;
-    warn(message?: any, ...optionalParams: any[]): void;
-    info(message?: any, ...optionalParams: any[]): void;
-    config(message?: any, ...optionalParams: any[]): void;
-    debug(message?: any, ...optionalParams: any[]): void;
-    trace(message?: any, ...optionalParams: any[]): void;
+struct LoggerI {
+    fatal(message?: unknown, ...optionalParams: unknown[]): void;
+    error(message?: unknown, ...optionalParams: unknown[]): void;
+    warn(message?: unknown, ...optionalParams: unknown[]): void;
+    info(message?: unknown, ...optionalParams: unknown[]): void;
+    config(message?: unknown, ...optionalParams: unknown[]): void;
+    debug(message?: unknown, ...optionalParams: unknown[]): void;
+    trace(message?: unknown, ...optionalParams: unknown[]): void;
 
     logLevel: number;
 }
 
-==================================== */

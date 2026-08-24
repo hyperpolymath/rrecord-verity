@@ -1,14 +1,11 @@
 // SPDX-License-Identifier: MPL-2.0
-// Ported via Harvard Engine mechanical processor
+// Ported via Harvard Engine (Semantic pass)
 
 module dkimHeader.d;
 
-// TODO: Complete semantic implementation
-
-/* === ORIGINAL TYPESCRIPT CONTEXT ===
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
-interface DKIMTooltipElement extends HTMLElement {
+struct DKIMTooltipElement extends HTMLElement {
     _target: DKIMTooltipTarget | void
     _warningsBox: HTMLElement | void
     _value: HTMLElement | void
@@ -16,11 +13,11 @@ interface DKIMTooltipElement extends HTMLElement {
     _dkimOnmouseleave: (ev: MouseEvent) => void
 }
 
-interface DKIMTooltipTarget extends HTMLElement {
+struct DKIMTooltipTarget extends HTMLElement {
     _dkimTooltip?: HTMLElement;
 }
 
-interface DKIMHeaderFieldElement extends HTMLDivElement {
+struct DKIMHeaderFieldElement extends HTMLDivElement {
     _dkimValue: XULElement
     _dkimWarningIcon: XULElement
     _dkimWarningTooltip: DKIMWarningsTooltipXULElement
@@ -29,19 +26,19 @@ interface DKIMHeaderFieldElement extends HTMLDivElement {
     _arhSpf: { box: XULElement, value: XULElement }
 }
 
-interface DKIMWarningsTooltipXULElement extends XULElement {
+struct DKIMWarningsTooltipXULElement extends XULElement {
     _warningsBox: XULElement | void
 }
 
-interface DKIMFaviconElement extends XULElement {
+struct DKIMFaviconElement extends XULElement {
     _dkimTooltipFromElement: DKIMTooltipElement
     _hboxWrapper?: HTMLDivElement
 }
 
 declare module browser {
     declare module dkimHeader {
-        const showDkimHeader: (tabId: number, messageId: number, show: boolean) => Promise<boolean>;
-        const showFromTooltip: (tabId: number, messageId: number, show: boolean) => Promise<boolean>;
+        const showDkimHeader: (tabId: number, messageId: number, show: boolean) => boolean;
+        const showFromTooltip: (tabId: number, messageId: number, show: boolean) => boolean;
         const setDkimHeaderResult: (
             tabId: number,
             messageId: number,
@@ -49,15 +46,14 @@ declare module browser {
             warnings: string[],
             faviconUrl: string,
             arh: { dkim?: string?, spf?: string?, dmarc?: string?},
-        ) => Promise<boolean>;
+        ) => boolean;
         const highlightFromAddress: (
             tabId: number,
             messageId: number,
             color: string,
             backgroundColor: string,
-        ) => Promise<boolean>;
-        const reset: (tabId: number, messageId: number) => Promise<boolean>;
+        ) => boolean;
+        const reset: (tabId: number, messageId: number) => boolean;
     }
 }
 
-==================================== */

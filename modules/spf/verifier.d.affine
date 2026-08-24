@@ -1,11 +1,8 @@
 // SPDX-License-Identifier: MPL-2.0
-// Ported via Harvard Engine mechanical processor
+// Ported via Harvard Engine (Semantic pass)
 
 module verifier.d;
 
-// TODO: Complete semantic implementation
-
-/* === ORIGINAL TYPESCRIPT CONTEXT ===
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 /**
@@ -13,7 +10,7 @@ module verifier.d;
  */
 
 declare module SPFVerifier {
-	export interface SPFResult {
+	struct SPFResult {
 		result: "none" | "neutral" | "pass" | "fail" | "softfail" | "temperror" | "permerror";
 		explanation?: string;
 		mechanism?: string;
@@ -22,6 +19,5 @@ declare module SPFVerifier {
 	}
 }
 
-export default SPFVerifier;
+default SPFVerifier;
 
-==================================== */

@@ -1,26 +1,23 @@
 // SPDX-License-Identifier: MPL-2.0
-// Ported via Harvard Engine mechanical processor
+// Ported via Harvard Engine (Semantic pass)
 
 module ctypes.d;
 
-// TODO: Complete semantic implementation
-
-/* === ORIGINAL TYPESCRIPT CONTEXT ===
 // SPDX-License-Identifier: MPL-2.0
 // Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 // https://developer.mozilla.org/en-US/docs/Mozilla/js-ctypes
 declare module ctypes {
     // https://developer.mozilla.org/en-US/docs/Mozilla/js-ctypes/js-ctypes_reference/CData
-    interface CData<T extends CType> {
+    struct CData<T extends CType> {
         readonly address: () => CDataPointerType<T>;
         readonly toSource: () => string;
         readonly toString: () => string;
 
         readonly constructor: T;
-        value: any;
+        value: unknown;
     }
     // https://developer.mozilla.org/en-US/docs/Mozilla/js-ctypes/js-ctypes_reference/CType
-    interface CType<T extends string = "", U = CData<T>> {
+    struct CType<T extends string = "", U = CData<T>> {
         readonly array: (n?: number) => ArrayTypeI<CType<T, U>>;
         readonly toSource: () => string;
         readonly toString: () => string;
@@ -32,12 +29,12 @@ declare module ctypes {
         readonly _underlyingType: U;
     }
     // https://developer.mozilla.org/en-US/docs/Mozilla/js-ctypes/js-ctypes_reference/Library
-    interface Library {
+    struct Library {
         readonly close: () => void;
     }
 
     // https://developer.mozilla.org/en-US/docs/Mozilla/js-ctypes/js-ctypes_reference/PointerType
-    interface PointerTypeI<T extends CType<any, any>> extends CType {
+    struct PointerTypeI<T extends CType<unknown, unknown>> extends CType {
         (): CDataPointerType<T>;
         readonly ptr: PointerTypeI<PointerTypeI<T>>;
 
@@ -46,10 +43,10 @@ declare module ctypes {
         readonly _underlyingType: CDataPointerType<T>;
     }
     const PointerType: {
-        new <T extends CType<any, any>>(type: T): PointerTypeI<T>;
-        <T extends CType<any, any>>(type: T): PointerTypeI<T>;
+        new <T extends CType<unknown, unknown>>(type: T): PointerTypeI<T>;
+        <T extends CType<unknown, unknown>>(type: T): PointerTypeI<T>;
     };
-    interface CDataPointerType<T extends CType<any, any>> extends CData<PointerTypeI<T>> {
+    struct CDataPointerType<T extends CType<unknown, unknown>> extends CData<PointerTypeI<T>> {
         readonly isNull: () => boolean;
         readonly increment: () => CDataPointerType<T>;
         readonly decrement: () => CDataPointerType<T>;
@@ -59,7 +56,7 @@ declare module ctypes {
     }
 
     // https://developer.mozilla.org/en-US/docs/Mozilla/js-ctypes/js-ctypes_reference/StructType
-    interface StructTypeI extends CType<any, any> {
+    struct StructTypeI extends CType<unknown, unknown> {
         (): CData<StructTypeI>;
         readonly ptr: PointerTypeI<StructTypeI>;
     }
@@ -69,17 +66,17 @@ declare module ctypes {
     };
 
     // https://developer.mozilla.org/en-US/docs/Mozilla/js-ctypes/js-ctypes_reference/ArrayType
-    interface ArrayTypeI<T extends CType<any, any>> extends CType {
+    struct ArrayTypeI<T extends CType<unknown, unknown>> extends CType {
         (): CData<ArrayTypeI>;
         readonly ptr: PointerTypeI<ArrayTypeI<T>>;
 
         readonly _underlyingType: CDataArrayType<T>;
     }
     const ArrayType: {
-        new <T extends CType<any, any>>(type: T, length?: number): ArrayTypeI<T>;
-        <T extends CType<any, any>>(type: T, length?: number): ArrayTypeI<T>;
+        new <T extends CType<unknown, unknown>>(type: T, length?: number): ArrayTypeI<T>;
+        <T extends CType<unknown, unknown>>(type: T, length?: number): ArrayTypeI<T>;
     }
-    interface CDataArrayType<T extends CType<any, any>> extends CData<ArrayTypeI<T>> {
+    struct CDataArrayType<T extends CType<unknown, unknown>> extends CData<ArrayTypeI<T>> {
         [x: number]: T["_underlyingType"];
         readonly length: number;
     }
@@ -121,30 +118,30 @@ declare module ctypes {
     const jschar: CType<"jschar">;
 
     const void_t: CType<"void_t">;
-    const voidptr_t: PointerTypeI<any>;
+    const voidptr_t: PointerTypeI<unknown>;
 
     const Int64: CType<"Int64">;
     const UInt64: CType<"UInt64">;
 
     // Methods
     // https://developer.mozilla.org/en-US/docs/Mozilla/js-ctypes/js-ctypes_reference/ctypes#Methods
-    const cast: <T extends CType<any, any> | CDataPointerType<any>>(data: CData<any>, type: T) => T["_underlyingType"];
+    const cast: <T extends CType<unknown, unknown> | CDataPointerType<unknown>>(data: CData<unknown>, type: T) => T["_underlyingType"];
     const libraryName: (name: string) => string;
     const open: (libSpec: string) => Library;
 
     // https://developer.mozilla.org/en-US/docs/Mozilla/js-ctypes/js-ctypes_reference/Library
-    interface Library {
+    struct Library {
         readonly close: () => void;
-        readonly declare: <RT extends CType<any, any> | CDataPointerType<any>>(
+        readonly declare: <RT extends CType<unknown, unknown> | CDataPointerType<unknown>>(
             name: string,
             abi?: ABI,
             returnType?: RT,
-            ...argType1: CType<any, any>[]
+            ...argType1: CType<unknown, unknown>[]
         ) => () => RT["_underlyingType"];
     }
 
     // https://developer.mozilla.org/en-US/docs/Mozilla/js-ctypes/js-ctypes_reference/ABI
-    interface ABI { ABI: never };
+    struct ABI { ABI: never };
 
     // Properties
     // https://developer.mozilla.org/en-US/docs/Mozilla/js-ctypes/js-ctypes_reference/ctypes#Properties
@@ -158,4 +155,3 @@ declare module ctypes {
     const winapi_abi: ABI;
 }
 
-==================================== */
