@@ -29,6 +29,7 @@ Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 | Banned | Replacement |
 |--------|-------------|
 | TypeScript | AffineScript |
+| ReScript | AffineScript |
 | Deno | Bun |
 | Node.js | Bun |
 | npm | Bun |
