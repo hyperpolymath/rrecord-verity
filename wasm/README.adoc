@@ -250,7 +250,7 @@ try {
 
 === Contributing
 
-See main link:../CONTRIBUTING.md[CONTRIBUTING.md] for contribution
+See main link:../.github/CONTRIBUTING.md[CONTRIBUTING.md] for contribution
 guidelines.
 
 ==== WASM-Specific Guidelines
