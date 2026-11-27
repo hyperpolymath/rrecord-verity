@@ -32,12 +32,12 @@ jobs:
         run: deno fmt --check
       
       - name: Deno test
-        run: deno test --allow-all --coverage=coverage
+        run: deno test --allow-read --allow-env --coverage=coverage
       
       - name: ReScript build
         run: |
           if [ -f "rescript.json" ] || [ -f "bsconfig.json" ]; then
-            deno run -A --node-modules-dir=auto npm:rescript
+            deno run --allow-read --allow-write --allow-env --allow-run --node-modules-dir=auto npm:rescript
           fi
       
       - name: Type check

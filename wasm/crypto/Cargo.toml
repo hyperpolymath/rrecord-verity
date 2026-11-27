@@ -18,8 +18,13 @@ web-sys = { version = "0.3", features = ["console"] }
 
 # Cryptographic libraries
 sha2 = "0.10"
-rsa = "0.9"
+rsa = { version = "0.9", features = ["sha2"] }
 ed25519-dalek = "2.0"
+# Top-tier signature verification (Ed448 + ML-DSA-87, FIPS 204)
+ed448-goldilocks-plus = { version = "0.18.1", default-features = false, features = ["signing"] }
+ml-dsa = { version = "0.1.2", default-features = false }
+# rsa pulls getrandom; wasm32 needs the js backend
+getrandom = { version = "0.2", features = ["js"] }
 base64 = "0.21"
 
 [dev-dependencies]
