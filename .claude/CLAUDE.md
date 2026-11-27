@@ -30,10 +30,7 @@ Copyright (c) Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 |--------|-------------|
 | TypeScript | AffineScript |
 | ReScript | AffineScript |
-| Deno | Bun |
-| Node.js | Bun |
-| npm | Bun |
-| pnpm/yarn | Bun |
+| Node.js, yarn | Bun (then Deno, pnpm, npm as fallbacks) |
 | Go | Rust |
 | Python | Julia/Rust/AffineScript |
 | Java/Kotlin | Rust/Tauri/Dioxus |
