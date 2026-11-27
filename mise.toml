@@ -16,6 +16,7 @@ stylua = "latest"
 # Build tools
 cmake = "latest"
 ninja = "latest"
+just = "latest"
 
 # Shell tools
 git = "latest"
@@ -39,7 +40,7 @@ run = [
 ]
 
 [tasks.test]
-run = "just test"
+run = "just test-wasm"
 
 [tasks.lint]
 run = "bun install --frozen-lockfile && bunx --no-install --bun prettier --check ."
