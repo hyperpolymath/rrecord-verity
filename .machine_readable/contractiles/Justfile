@@ -10,39 +10,36 @@ default:
 
 # === Development ===
 
-# Run all checks (lint, typecheck, test, RSR)
-verify:
-	deno task verify
+# Run all checks (lint, test, RSR)
+verify: lint test verify-rsr
 
-# Lint code with Deno
+# Check formatting with Prettier (devDependency, run under Bun)
 lint:
-	deno task lint
+	bun install --frozen-lockfile
+	bunx --no-install --bun prettier --check .
 
-# Format code with Deno
+# Format code with Prettier (devDependency, run under Bun)
 fmt:
-	deno task fmt
-
-# Type check with Deno
-check:
-	deno task check
+	bun install --frozen-lockfile
+	bunx --no-install --bun prettier --write .
 
 # Run tests
 test:
-	deno task test
+	bunx --no-install --bun mocha --recursive test/unittest
 
 # Run tests in watch mode
 test-watch:
-	deno task test:watch
+	bunx --no-install --bun mocha --recursive --watch test/unittest
 
 # Verify RSR compliance
 verify-rsr:
-	deno task verify-rsr
+	bun run scripts/verify-rsr.js
 
 # === Building ===
 
 # Pack extension into XPI file
 pack:
-	deno task pack
+	bun run scripts/pack.js
 
 # Build WebAssembly modules (performance-critical operations)
 build-wasm:
@@ -55,7 +52,7 @@ build-wasm:
 
 # Start development server
 dev:
-	deno task dev
+	bun -e 'Bun.serve({ hostname: "127.0.0.1", port: 8080, fetch: (r) => { const p = new URL(r.url).pathname; return new Response(Bun.file("." + (p.endsWith("/") ? p + "index.html" : p))); } }); console.log("http://localhost:8080/")'
 
 # Load extension in Thunderbird (requires Thunderbird in PATH)
 load-tb:
@@ -66,7 +63,7 @@ load-tb:
 
 # Update third-party dependencies
 update-deps:
-	deno task update-thirdparty
+	bun run scripts/update-thirdparty.js
 
 # Clean build artifacts
 clean:
@@ -81,7 +78,7 @@ clean:
 # Run security audit
 audit:
 	@echo "Checking for security vulnerabilities..."
-	deno run --allow-read --allow-net scripts/security-audit.js
+	bun run scripts/security-audit.js
 
 # Verify no secrets in code
 check-secrets:
@@ -92,26 +89,17 @@ check-secrets:
 
 # === Documentation ===
 
-# Generate API documentation
-docs:
-	@echo "Generating documentation..."
-	deno doc --html --name="DKIM Verifier" modules/**/*.mjs.js
-
 # Serve documentation
 docs-serve:
 	@echo "Serving documentation..."
-	deno run --allow-net --allow-read npm:http-server ./docs -p 8080
+	bun -e 'Bun.serve({ hostname: "127.0.0.1", port: 8080, fetch: (r) => { const p = new URL(r.url).pathname; return new Response(Bun.file("./docs" + (p.endsWith("/") ? p + "index.html" : p))); } }); console.log("http://localhost:8080/")'
 
 # === Testing ===
 
 # Run unit tests with coverage
 test-coverage:
 	@echo "Running tests with coverage..."
-	deno test --coverage=coverage --allow-read --allow-env
-
-# Generate coverage report
-coverage-report:
-	deno coverage coverage --lcov --output=coverage.lcov
+	bun test --coverage --coverage-reporter=lcov --coverage-dir=coverage
 
 # === Release ===
 
@@ -165,12 +153,12 @@ test-wasm:
 
 # Benchmark WASM vs JS performance
 benchmark:
-	deno run --allow-read scripts/benchmark-wasm.js
+	bun run scripts/benchmark-wasm.js
 
 # === CI/CD ===
 
 # Run CI checks (same as GitHub Actions)
-ci: lint check test verify-rsr
+ci: lint test verify-rsr
 	@echo "✓ All CI checks passed"
 
 # Simulate release build
