@@ -11,7 +11,8 @@
 use wasm_bindgen::prelude::*;
 use sha2::{Sha256, Sha512, Digest};
 use ed25519_dalek::{Verifier, Signature, VerifyingKey};
-use rsa::{RsaPublicKey, PaddingScheme, PublicKey};
+use rsa::{RsaPublicKey, Pkcs1v15Sign};
+use rsa::pkcs1::DecodeRsaPublicKey;
 use rsa::sha2::Sha256 as RsaSha256;
 use base64::{Engine as _, engine::general_purpose};
 
@@ -150,7 +151,7 @@ pub fn verify_rsa_sha256(
     let hash = hasher.finalize();
 
     // Verify signature using PKCS1v15 padding
-    let padding = PaddingScheme::new_pkcs1v15_sign::<RsaSha256>();
+    let padding = Pkcs1v15Sign::new::<RsaSha256>();
     match public_key.verify(padding, &hash, &sig_bytes) {
         Ok(_) => Ok(true),
         Err(_) => Ok(false),
