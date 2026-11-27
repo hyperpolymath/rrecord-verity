@@ -14,6 +14,10 @@ use ed25519_dalek::{Verifier, Signature, VerifyingKey};
 use rsa::{RsaPublicKey, Pkcs1v15Sign};
 use rsa::pkcs1::DecodeRsaPublicKey;
 use rsa::sha2::Sha256 as RsaSha256;
+use ml_dsa::{
+    EncodedSignature, EncodedVerifyingKey, MlDsa87, Signature as MlDsaSignature,
+    VerifyingKey as MlDsaVerifyingKey,
+};
 use base64::{Engine as _, engine::general_purpose};
 
 /// Initialize the WASM module
@@ -119,6 +123,11 @@ pub fn verify_ed25519(
 
 /// Verify RSA signature with SHA-256 (used in DKIM with rsa-sha256)
 ///
+/// Crypto-policy exception: verify only. DKIM (RFC 6376, RFC 8463) defines
+/// only rsa-sha256 and ed25519-sha256, and most mail is signed with RSA.
+/// The target will not accept a higher tier, so this stays. Nothing here
+/// signs or encrypts.
+///
 /// # Arguments
 /// * `public_key_der` - Base64-encoded DER public key
 /// * `message` - Message that was signed
@@ -156,6 +165,87 @@ pub fn verify_rsa_sha256(
         Ok(_) => Ok(true),
         Err(_) => Ok(false),
     }
+}
+
+/// Verify an Ed448 signature (RFC 8032 Ed448, empty context)
+///
+/// Top-tier signature algorithm. No DKIM algorithm uses it yet; this is
+/// ready for when one is registered.
+///
+/// # Arguments
+/// * `public_key` - Base64-encoded Ed448 public key (57 bytes)
+/// * `message` - Message that was signed
+/// * `signature` - Base64-encoded Ed448 signature (114 bytes)
+///
+/// # Returns
+/// `true` if signature is valid, `false` otherwise
+#[wasm_bindgen]
+pub fn verify_ed448(
+    public_key: &str,
+    message: &[u8],
+    signature: &str,
+) -> Result<bool, JsValue> {
+    let pub_key_bytes = general_purpose::STANDARD
+        .decode(public_key)
+        .map_err(|e| JsValue::from_str(&format!("Invalid public key: {}", e)))?;
+    let sig_bytes = general_purpose::STANDARD
+        .decode(signature)
+        .map_err(|e| JsValue::from_str(&format!("Invalid signature: {}", e)))?;
+
+    let pub_key_array: [u8; 57] = pub_key_bytes
+        .try_into()
+        .map_err(|_| JsValue::from_str("Public key must be 57 bytes"))?;
+    let sig_array: [u8; 114] = sig_bytes
+        .try_into()
+        .map_err(|_| JsValue::from_str("Signature must be 114 bytes"))?;
+
+    let verifying_key = ed448_goldilocks_plus::VerifyingKey::from_bytes(&pub_key_array)
+        .map_err(|e| JsValue::from_str(&format!("Invalid Ed448 key: {:?}", e)))?;
+    let signature = match ed448_goldilocks_plus::Signature::from_bytes(&sig_array) {
+        Ok(sig) => sig,
+        Err(_) => return Ok(false),
+    };
+
+    Ok(verifying_key.verify_raw(&signature, message).is_ok())
+}
+
+/// Verify an ML-DSA-87 signature (FIPS 204, empty context)
+///
+/// Top-tier post-quantum signature algorithm. No DKIM algorithm uses it
+/// yet; this is ready for when one is registered.
+///
+/// # Arguments
+/// * `public_key` - Base64-encoded ML-DSA-87 public key (2592 bytes)
+/// * `message` - Message that was signed
+/// * `signature` - Base64-encoded ML-DSA-87 signature (4627 bytes)
+///
+/// # Returns
+/// `true` if signature is valid, `false` otherwise
+#[wasm_bindgen]
+pub fn verify_ml_dsa_87(
+    public_key: &str,
+    message: &[u8],
+    signature: &str,
+) -> Result<bool, JsValue> {
+    let pub_key_bytes = general_purpose::STANDARD
+        .decode(public_key)
+        .map_err(|e| JsValue::from_str(&format!("Invalid public key: {}", e)))?;
+    let sig_bytes = general_purpose::STANDARD
+        .decode(signature)
+        .map_err(|e| JsValue::from_str(&format!("Invalid signature: {}", e)))?;
+
+    let encoded_key = EncodedVerifyingKey::<MlDsa87>::try_from(pub_key_bytes.as_slice())
+        .map_err(|_| JsValue::from_str("Public key must be 2592 bytes"))?;
+    let encoded_sig = EncodedSignature::<MlDsa87>::try_from(sig_bytes.as_slice())
+        .map_err(|_| JsValue::from_str("Signature must be 4627 bytes"))?;
+
+    let verifying_key = MlDsaVerifyingKey::<MlDsa87>::decode(&encoded_key);
+    let signature = match MlDsaSignature::<MlDsa87>::decode(&encoded_sig) {
+        Some(sig) => sig,
+        None => return Ok(false),
+    };
+
+    Ok(verifying_key.verify_with_context(message, &[], &signature))
 }
 
 /// Compute DKIM body hash (SHA-256)
@@ -212,5 +302,29 @@ mod tests {
         let encoded = base64_encode(data);
         let decoded = base64_decode(&encoded).expect("TODO: handle error");
         assert_eq!(data.to_vec(), decoded);
+    }
+
+    #[test]
+    fn test_ed448_roundtrip() {
+        let secret = ed448_goldilocks_plus::SecretKey::from([7u8; 57]);
+        let signing_key = ed448_goldilocks_plus::SigningKey::from_bytes(&secret);
+        let msg = b"dkim test message";
+        let sig = signing_key.sign_raw(msg);
+        let pk = base64_encode(&signing_key.verifying_key().to_bytes());
+        let sig_b64 = base64_encode(&sig.to_bytes());
+        assert!(verify_ed448(&pk, msg, &sig_b64).unwrap());
+        assert!(!verify_ed448(&pk, b"tampered message", &sig_b64).unwrap());
+    }
+
+    #[test]
+    fn test_ml_dsa_87_roundtrip() {
+        let seed = ml_dsa::Seed::from([9u8; 32]);
+        let signing_key = ml_dsa::ExpandedSigningKey::<MlDsa87>::from_seed(&seed);
+        let msg = b"dkim test message";
+        let sig = signing_key.sign_deterministic(msg, &[]).unwrap();
+        let pk = base64_encode(&signing_key.verifying_key().encode());
+        let sig_b64 = base64_encode(&sig.encode());
+        assert!(verify_ml_dsa_87(&pk, msg, &sig_b64).unwrap());
+        assert!(!verify_ml_dsa_87(&pk, b"tampered message", &sig_b64).unwrap());
     }
 }
